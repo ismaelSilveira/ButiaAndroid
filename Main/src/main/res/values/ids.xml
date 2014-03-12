@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="cord" type="id">cord</item>
+    <item name="control" type="id">control</item>
+
+</resources>
