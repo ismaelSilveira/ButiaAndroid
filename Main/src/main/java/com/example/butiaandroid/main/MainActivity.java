@@ -72,14 +72,12 @@ public class MainActivity extends ActionBarActivity implements View.OnTouchListe
         String mensaje = "";
 
 
-        if ((x  > control.getCentroX() - control.getRadio()) &&(x  < control.getCentroX() + control.getRadio()) &&
-                (y  > control.getCentroY() - control.getRadio()) &&(y  < control.getCentroY() + control.getRadio())){
-            mensaje = mensaje + "adentro: ";
-
+        if ( (Math.pow(x - control.getCentroX() ,2) + (Math.pow(y - control.getCentroY(),2) )<= Math.pow( control.getRadio(),2))){
+            mensaje = mensaje + "adentro: x=" + x + ", y=" + y;
 
             //set the image to the new coordinates based on where the user is touching and dragging
             ViewGroup.MarginLayoutParams marginParams = new ViewGroup.MarginLayoutParams(robot.getLayoutParams());
-            marginParams.setMargins(x-  control.getLocationX() -60, y -control.getLocationY()-60,0, 0);
+            marginParams.setMargins(x-  control.getLocationX() -(robot.getWidth()/2), y -control.getLocationY()-(robot.getHeight()/2),0, 0);
             RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(marginParams);
             robot.setLayoutParams(layoutParams);
 
