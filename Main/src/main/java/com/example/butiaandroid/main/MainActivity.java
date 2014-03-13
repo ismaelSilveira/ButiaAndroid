@@ -6,6 +6,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.butiaandroid.main.vistas.LayoutControl;
@@ -15,6 +18,7 @@ public class MainActivity extends ActionBarActivity implements View.OnTouchListe
 
     TextView texto;
     LayoutControl control;
+    ImageView robot;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,6 +27,7 @@ public class MainActivity extends ActionBarActivity implements View.OnTouchListe
 
         texto = (TextView) findViewById(R.id.cord);
         control = (LayoutControl) findViewById(R.id.control);
+        robot = (ImageView) findViewById( R.id.robot);
 
        // canvas.drawCircle(getWidth()/2, getHeight()/2, 100, paint);
 
@@ -62,8 +67,8 @@ public class MainActivity extends ActionBarActivity implements View.OnTouchListe
 
     private boolean manejar(MotionEvent motionEvent) {
 
-        float x = motionEvent.getRawX();
-        float y = motionEvent.getRawY();
+        int x = (int) motionEvent.getRawX();
+        int y = (int) motionEvent.getRawY();
         String mensaje = "";
 
 
@@ -72,7 +77,11 @@ public class MainActivity extends ActionBarActivity implements View.OnTouchListe
             mensaje = mensaje + "adentro: ";
 
 
-
+            //set the image to the new coordinates based on where the user is touching and dragging
+            ViewGroup.MarginLayoutParams marginParams = new ViewGroup.MarginLayoutParams(robot.getLayoutParams());
+            marginParams.setMargins(x-  control.getLocationX() -60, y -control.getLocationY()-60,0, 0);
+            RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(marginParams);
+            robot.setLayoutParams(layoutParams);
 
         }else{
             mensaje = mensaje + "afuera";

@@ -9,16 +9,23 @@ import android.graphics.drawable.shapes.OvalShape;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.RelativeLayout;
+
+import com.example.butiaandroid.main.R;
 
 /**
  * Created by Rodrigo on 11/03/14.
  */
 
-public class LayoutControl extends View {
+public class LayoutControl extends RelativeLayout {
+    private int margen = 77;
     private ShapeDrawable mDrawable;
     private float radio;
     private float centroX;
     private float centroY;
+
+    private int locationX;
+    private int locationY;
 
     public float getRadio(){
         return radio;
@@ -37,22 +44,32 @@ public class LayoutControl extends View {
 
     private void init () {
         if (this.getWidth() > this.getHeight() ){
-            radio = (this.getHeight() /2 ) -20;
+            radio = (this.getHeight() /2 ) - margen;
         } else {
-            radio = (this.getWidth() /2 ) -20;
+            radio = (this.getWidth() /2 ) - margen;
         }
 
         int mOffset[] = new int[2];
         getLocationOnScreen( mOffset );
+        locationX =  mOffset[0];
+        locationY =  mOffset[1];
 
-        centroX =  mOffset[0] +  (this.getWidth() /2 );
-        centroY =  mOffset[1]+ (this.getHeight() /2);
+        centroX = locationX +  (this.getWidth() /2 );
+        centroY = locationY + (this.getHeight() /2);
     }
 
 
+    public int getLocationX() {
+        return locationX;
+    }
+
+    public int getLocationY() {
+        return locationY;
+    }
 
     public LayoutControl(Context context) {
         super(context);
+        setWillNotDraw(false);
         //init();
 
     }
@@ -62,12 +79,14 @@ public class LayoutControl extends View {
 
     public LayoutControl(Context context, AttributeSet attrs) {
         super(context, attrs);
+        setWillNotDraw(false);
        // init();
 
     }
 
     public LayoutControl(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
+        setWillNotDraw(false);
        // init();
 
     }
@@ -77,11 +96,15 @@ public class LayoutControl extends View {
     protected  void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         init();
-/*
+        //sombra
+        Paint paintBorde2 = new Paint();
+        paintBorde2.setColor(Color.parseColor("#80D8D8D8"));
+        canvas.drawCircle(getWidth()/2, getHeight()/2, radio+50, paintBorde2);
+        //borde
         Paint paintBorde = new Paint();
-        paintBorde.setColor(R.color.borde);
-        canvas.drawCircle(getWidth()/2, getHeight()/2, radio+2, paintBorde);
-*/
+        paintBorde.setColor(Color.parseColor("#CCD8D8D8"));
+        canvas.drawCircle(getWidth()/2, getHeight()/2, radio+1, paintBorde);
+        //circulo
         Paint paint = new Paint();
         paint.setColor(Color.WHITE);
         canvas.drawCircle(getWidth()/2, getHeight()/2, radio, paint);
