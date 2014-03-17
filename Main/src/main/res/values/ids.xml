@@ -3,4 +3,8 @@
     <item name="cord" type="id">cord</item>
     <item name="control" type="id">control</item>
     <item name="robot" type="id">robot</item>
+    <item name="connect_form" type="id">connect_form</item>
+    <item name="ip" type="id">ip</item>
+    <item name="puerto" type="id">puerto</item>
+    <item name="conectar" type="id">conectar</item>
 </resources>

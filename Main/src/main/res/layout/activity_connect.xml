@@ -1,0 +1,87 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:flatui="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="com.example.butiaandroid.main.ConnectActivity">
+
+    <!-- Login progress -->
+    <ProgressBar
+        android:id="@+id/login_progress"
+        style="?android:attr/progressBarStyleLarge"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="8dp"
+        android:visibility="gone"/>
+
+
+    <LinearLayout
+                android:id="@id/connect_form"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+<!--
+
+        <com.cengalabs.flatui.views.FlatTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dip"
+                    android:layout_marginLeft="5dip"
+                    android:maxLines="1"
+                    flatui:textColor="main"
+                    android:text="Conectate al BUTlA"
+                    android:textSize="30dip"
+                    android:gravity="center"
+                    flatui:fontFamily="Roboto"/>
+-->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="fill_parent"
+                        android:orientation="vertical"
+                        android:layout_gravity="center_vertical|bottom|left|right|top"
+                        android:gravity="center" >
+
+
+                        <com.cengalabs.flatui.views.FlatEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="IP, ejemplo: 192.168.1.1"
+                        android:maxLines="1"
+                        android:singleLine="true"
+                        flatui:theme="Sea"
+                        flatui:fieldStyle="box"
+                        flatui:cornerRadius="1dip"
+                        android:id="@id/ip" />
+
+                    <com.cengalabs.flatui.views.FlatEditText
+                        android:id="@id/puerto"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Puerto, ejemplo: 8888"
+                        android:maxLines="1"
+                        android:singleLine="true"
+                        flatui:theme="Sea"
+                        flatui:fieldStyle="box"
+                        flatui:cornerRadius="1dp"
+                    android:layout_marginTop="16dip" />
+
+                    <com.cengalabs.flatui.views.FlatButton
+                        android:id="@id/conectar"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:text="Conectar!"
+                        flatui:theme="Sea"
+                        flatui:textAppearance="light"/>
+
+                    </LinearLayout>
+
+        </LinearLayout>
+</LinearLayout>

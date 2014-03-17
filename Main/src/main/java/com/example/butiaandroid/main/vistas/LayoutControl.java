@@ -103,7 +103,7 @@ public class LayoutControl extends RelativeLayout {
         //borde
         Paint paintBorde = new Paint();
         paintBorde.setColor(Color.parseColor("#CCD8D8D8"));
-        canvas.drawCircle(getWidth()/2, getHeight()/2, radio+1, paintBorde);
+        canvas.drawCircle(getWidth()/2, getHeight()/2, radio+2, paintBorde);
         //circulo
         Paint paint = new Paint();
         paint.setColor(Color.WHITE);
