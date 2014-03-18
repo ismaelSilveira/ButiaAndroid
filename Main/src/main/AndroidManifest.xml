@@ -9,7 +9,7 @@
         android:theme="@style/AppTheme" >
         <activity
             android:name="com.example.butiaandroid.main.ConnectActivity"
-            android:label="@string/title_activity_connect" >
+            android:label="ButiaAndroid" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -17,14 +17,13 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.example.butiaandroid.main.MainActivity"
+            android:name=".ControlActivity"
             android:label="ButiaAndroid"
             android:windowSoftInputMode="adjustResize" >
         </activity>
     </application>
 
     <!-- To auto-complete the email text field in the login form with the user's emails -->
-    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
-
+    <uses-permission android:name="android.permission.INTERNET" />
 
 </manifest>

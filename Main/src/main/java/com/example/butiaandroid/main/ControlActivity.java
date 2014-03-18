@@ -14,7 +14,7 @@ import android.widget.TextView;
 import com.example.butiaandroid.main.vistas.LayoutControl;
 
 
-public class MainActivity extends ActionBarActivity implements View.OnTouchListener {
+public class ControlActivity extends ActionBarActivity implements View.OnTouchListener {
 
     TextView texto;
     LayoutControl control;

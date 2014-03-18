@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.example.butiaandroid.main.MainActivity"
+    tools:context="com.example.butiaandroid.main.ControlActivity"
     android:background="@color/fondoGris"
     android:padding="16dp">
 

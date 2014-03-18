@@ -4,9 +4,7 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.app.Activity;
-import android.app.LoaderManager.LoaderCallbacks;
 import android.content.Intent;
-import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -157,7 +155,7 @@ public class ConnectActivity extends Activity {
     }
 
 private void conecto(){
-    Intent myIntent = new Intent(this, MainActivity.class);
+    Intent myIntent = new Intent(this, ControlActivity.class);
     startActivity(myIntent);
     finish();
 }
