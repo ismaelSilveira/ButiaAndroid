@@ -5,13 +5,8 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.drawable.ShapeDrawable;
-import android.graphics.drawable.shapes.OvalShape;
 import android.util.AttributeSet;
-import android.view.View;
-import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
-
-import com.example.butiaandroid.main.R;
 
 /**
  * Created by Rodrigo on 11/03/14.
@@ -35,12 +30,9 @@ public class LayoutControl extends RelativeLayout {
         return centroX;
     }
 
-
     public float getCentroY(){
         return centroY;
     }
-
-
 
     private void init () {
         if (this.getWidth() > this.getHeight() ){
@@ -74,9 +66,6 @@ public class LayoutControl extends RelativeLayout {
 
     }
 
-
-
-
     public LayoutControl(Context context, AttributeSet attrs) {
         super(context, attrs);
         setWillNotDraw(false);
@@ -90,7 +79,6 @@ public class LayoutControl extends RelativeLayout {
        // init();
 
     }
-
 
     @Override
     protected  void onDraw(Canvas canvas) {

@@ -157,7 +157,7 @@ public class ConnectActivity extends Activity {
 private void conecto(){
     Intent myIntent = new Intent(this, ControlActivity.class);
     startActivity(myIntent);
-  //  finish();
+    finish();
 }
 
 
