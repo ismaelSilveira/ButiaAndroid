@@ -24,15 +24,56 @@ import java.util.regex.Pattern;
 
  */
 public class ConnectActivity extends Activity {
-
-
     // UI references.
     private EditText in_ip;
     private EditText in_puerto;
 
     private View mProgressView;
     private View mLoginFormView;
-    private CheckBox remember;
+    private CheckBox enableVideo;
+
+    private class ConectarButia extends AsyncTask<String, Void, Boolean > {
+        @Override
+        protected Boolean doInBackground(String... params) {
+            String ip = params[0];
+            String puerto = params[1];
+
+            try {
+                // Simulate network access.
+                Thread.sleep(2000);
+            } catch (Exception e) {
+                return false;
+            }
+
+            //que lo haga siempre que se conecta
+            SharedPreferences preferences = getSharedPreferences("datos", Context.MODE_PRIVATE);
+            preferences.edit().putString("IP", ip);
+            preferences.edit().putString("PORT", puerto);
+            preferences.edit().commit();
+
+            return true;
+        }
+
+        @Override
+        protected void onPostExecute(Boolean result) {
+            showProgress(false);
+
+            if (result) {
+                conecto();
+                finish();
+            } else {
+                in_ip.setError(getString(R.string.error_connect));
+                in_ip.requestFocus();
+            }
+            //  super.onPostExecute(result);
+
+        }
+
+        @Override
+        protected void onCancelled() {
+            showProgress(false);
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,7 +83,7 @@ public class ConnectActivity extends Activity {
         // Set up the login form.
         in_ip = (EditText) findViewById(R.id.ip);
         in_puerto = (EditText) findViewById(R.id.puerto);
-        remember = (CheckBox) findViewById(R.id.remember);
+        enableVideo = (CheckBox) findViewById(R.id.enableVideo);
 
         SharedPreferences preferences = getSharedPreferences("datos", Context.MODE_PRIVATE);
         in_ip.setText(preferences.getString("IP",""));
@@ -60,9 +101,6 @@ public class ConnectActivity extends Activity {
         mProgressView = findViewById(R.id.login_progress);
     }
 
-
-
-
     /**
      * Attempts to sign in or register the account specified by the login form.
      * If there are form errors (invalid email, missing fields, etc.), the
@@ -76,21 +114,20 @@ public class ConnectActivity extends Activity {
 
         // Store values at the time of the login attempt.
         String ip = in_ip.getText().toString();
-        String puerto= in_puerto.getText().toString();
+        String puerto = in_puerto.getText().toString();
 
         boolean cancel = false;
         View focusView = null;
 
-
-        // Check for a valid password, if the user entered one.
+        // Check for a valid IP address.
         if (TextUtils.isEmpty(ip) || !isIPValid(ip)) {
             in_ip.setError(getString(R.string.error_invalid_ip));
             focusView = in_ip;
             cancel = true;
         }
 
-        // Check for a valid email address.
-        if (TextUtils.isEmpty(puerto)) {
+        // Check for a valid port.
+        if (TextUtils.isEmpty(puerto) || !isPuertoValid(puerto)) {
             in_puerto.setError(getString(R.string.error_invalid_puerto));
             focusView = in_puerto;
             cancel = true;
@@ -110,14 +147,8 @@ public class ConnectActivity extends Activity {
             mConnectTask.execute(ip);
 */
             new ConectarButia().execute(ip, puerto);
-
-
         }
     }
-
-
-
-
 
     private boolean isIPValid(String ip) {
         String patron = "^([1-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])(\\.([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])){2}(\\.([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5]))$";
@@ -126,8 +157,8 @@ public class ConnectActivity extends Activity {
     }
 
     private boolean isPuertoValid(String puerto) {
-        //TODO: Replace this with your own logic
-        return puerto.length() > 4;
+        String patron = "^(6553[0-5]|655[0-2][0-9]|65[0-4][0-9]{2}|6[0-4][0-9]{3}|[0-5]?([0-9]){0,3}[0-9])$";
+        return Pattern.compile(patron).matcher(puerto).matches();
     }
 
     /**
@@ -166,66 +197,10 @@ public class ConnectActivity extends Activity {
         }
     }
 
-private void conecto(){
-    Intent myIntent = new Intent(this, ControlActivity.class);
-    startActivity(myIntent);
-    finish();
-}
-
-
-
-
-
-
-
-    private class ConectarButia extends AsyncTask<String, Void, Boolean > {
-
-        @Override
-        protected Boolean  doInBackground(String...params) {
-            String ip = params[0];
-            String puerto= params[1];
-
-            try {
-                // Simulate network access.
-                Thread.sleep(2000);
-            } catch (Exception e) {
-                return  false;
-            }
-
-
-            //que lo haga siempre que se conecta
-            SharedPreferences preferences = getSharedPreferences("datos", Context.MODE_PRIVATE);
-            preferences.edit().putString("IP", ip);
-            preferences.edit().putString("PORT", puerto);
-            preferences.edit().commit();
-
-
-            return true;
-        }
-
-
-
-
-        @Override
-        protected void onPostExecute(Boolean result) {
-            showProgress(false);
-
-            if (result) {
-                conecto();
-                finish();
-            } else {
-                in_ip.setError(getString(R.string.error_connect));
-                in_ip.requestFocus();
-            }
-            //  super.onPostExecute(result);
-
-        }
-
-        @Override
-        protected void onCancelled() {
-            showProgress(false);
-        }
-
+    private void conecto(){
+        Intent myIntent = new Intent(this, ControlActivity.class);
+        startActivity(myIntent);
+        finish();
     }
 
 

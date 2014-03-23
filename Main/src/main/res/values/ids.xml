@@ -8,4 +8,5 @@
     <item name="puerto" type="id">puerto</item>
     <item name="conectar" type="id">conectar</item>
     <item name="remember" type="id">remember</item>
+    <item name="enableVideo" type="id" />
 </resources>

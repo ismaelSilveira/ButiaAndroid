@@ -25,7 +25,6 @@
         android:orientation="vertical"
         android:shrinkColumns="*">
 
-
         <!--layout titulo -->
         <LinearLayout
             android:layout_width="match_parent"
@@ -35,30 +34,25 @@
             android:paddingRight="@dimen/activity_horizontal_margin"
             android:gravity="center"
             android:layout_gravity="top">
-
             <com.cengalabs.flatui.views.FlatTextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dip"
-                android:text="Conectate al BUTlA"
+                android:text="Conéctate al BUTlÁ"
                 android:textSize="32dip"
                 android:gravity="center"
                 flatui:fontFamily="Roboto"
                 flatui:textColor="light"/>
-
             <com.cengalabs.flatui.views.FlatTextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dip"
-                android:text="Si no sabes como hacerlo, pasa por aqui"
+                android:text="Si no sabes como hacerlo, pasa por aquí"
                 android:textSize="15dip"
                 android:gravity="center"
                 flatui:fontFamily="Roboto"
                 android:textColor="#538F24"/>
-
-
         </LinearLayout>
-
 
         <!--inputs -->
         <LinearLayout
@@ -68,8 +62,6 @@
             android:layout_gravity="center"
             android:paddingLeft="@dimen/activity_horizontal_margin"
             android:paddingRight="@dimen/activity_horizontal_margin">
-
-
             <com.cengalabs.flatui.views.FlatEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -80,7 +72,6 @@
                 flatui:fieldStyle="box"
                 flatui:cornerRadius="1dip"
                 android:id="@id/ip" />
-
             <com.cengalabs.flatui.views.FlatEditText
                 android:id="@id/puerto"
                 android:layout_width="match_parent"
@@ -93,16 +84,14 @@
                 flatui:cornerRadius="1dp"
                 android:layout_marginTop="16dip"
                 android:inputType="number" />
-
             <com.cengalabs.flatui.views.FlatCheckBox
-                android:id="@id/remember"
+                android:id="@id/enableVideo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 flatui:size="20dip"
-                android:text="habilitar video"
+                android:text="Habilitar video"
                 flatui:theme="Sea"/>
-
             <com.cengalabs.flatui.views.FlatButton
                 android:id="@id/conectar"
                 android:layout_width="match_parent"
@@ -111,14 +100,7 @@
                 android:text="Conectar!"
                 flatui:theme="Sea"
                 flatui:textAppearance="light"/>
-
         </LinearLayout>
-
-
-
-
-
-
 
         <!-- layout footer -->
         <LinearLayout
@@ -126,8 +108,6 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:layout_gravity="bottom">
-
-
             <!--nubes -->
             <LinearLayout
                 android:orientation="vertical"
@@ -135,7 +115,6 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/nubes"
                 android:layout_gravity="top"></LinearLayout>
-
             <!-- footer-->
             <LinearLayout
                 android:layout_width="match_parent"
@@ -146,7 +125,6 @@
                 android:paddingBottom="@dimen/activity_vertical_margin"
                 android:background="#ffffff"
                 android:layout_gravity="bottom">
-
                 <com.cengalabs.flatui.views.FlatTextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -157,7 +135,6 @@
                     android:textSize="18dip"
                     android:gravity="center"
                     flatui:fontFamily="Roboto"/>
-
                 <com.cengalabs.flatui.views.FlatTextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -166,14 +143,7 @@
                     android:textSize="15dip"
                     android:gravity="center"
                     flatui:fontFamily="Roboto"/>
-
-
             </LinearLayout>
-
-
-
         </LinearLayout>
-
     </FrameLayout>
-
 </LinearLayout>

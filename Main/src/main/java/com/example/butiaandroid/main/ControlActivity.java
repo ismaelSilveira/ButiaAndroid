@@ -1,11 +1,12 @@
 package com.example.butiaandroid.main;
 
-import android.support.v7.app.ActionBarActivity;
+import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -13,8 +14,7 @@ import android.widget.TextView;
 
 import com.example.butiaandroid.main.vistas.LayoutControl;
 
-
-public class ControlActivity extends ActionBarActivity implements View.OnTouchListener {
+public class ControlActivity extends Activity implements OnTouchListener {
 
     TextView texto;
     LayoutControl control;
@@ -34,10 +34,8 @@ public class ControlActivity extends ActionBarActivity implements View.OnTouchLi
         control.setOnTouchListener(this);
     }
 
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
         return true;
@@ -55,39 +53,42 @@ public class ControlActivity extends ActionBarActivity implements View.OnTouchLi
         return super.onOptionsItemSelected(item);
     }
 
-
     @Override
     public boolean onTouch(View view, MotionEvent motionEvent) {
-        if ( view.getId() == R.id.control) {
+        if (view.getId() == R.id.control) {
             return manejar(motionEvent);
         }
-
         return true;
     }
 
-    private boolean manejar(MotionEvent motionEvent) {
+    private void setPosition(int posX, int posY)
+    {
+        ViewGroup.MarginLayoutParams marginParams = new ViewGroup.MarginLayoutParams(robot.getLayoutParams());
+        marginParams.setMargins(posX - control.getLocationX() - (robot.getWidth() / 2), posY - control.getLocationY() - (robot.getHeight() / 2), 0, 0);
+        RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(marginParams);
+        robot.setLayoutParams(layoutParams);
+    }
 
+    private boolean manejar(MotionEvent motionEvent) {
         int x = (int) motionEvent.getRawX();
         int y = (int) motionEvent.getRawY();
         String mensaje = "";
 
-
-        if ( (Math.pow(x - control.getCentroX() ,2) + (Math.pow(y - control.getCentroY(),2) )<= Math.pow( control.getRadio(),2))){
+        if (Math.pow(x - control.getCentroX(), 2) + (Math.pow(y - control.getCentroY(), 2)) <= Math.pow(control.getRadio(),2)){
             mensaje = mensaje + "adentro: x=" + x + ", y=" + y;
 
             //set the image to the new coordinates based on where the user is touching and dragging
-            ViewGroup.MarginLayoutParams marginParams = new ViewGroup.MarginLayoutParams(robot.getLayoutParams());
-            marginParams.setMargins(x-  control.getLocationX() -(robot.getWidth()/2), y -control.getLocationY()-(robot.getHeight()/2),0, 0);
-            RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(marginParams);
-            robot.setLayoutParams(layoutParams);
-
-        }else{
+            setPosition(x, y);
+        }
+        else{
             mensaje = mensaje + "afuera";
         }
-
-
-         texto.setText(mensaje);
-
+        if (motionEvent.getAction() == MotionEvent.ACTION_UP)
+        {
+            mensaje = "CentroX: " + control.getCentroX() + ", CentroY: " + control.getCentroY() + ".";
+            setPosition((int) control.getCentroX(), (int) control.getCentroY());
+        }
+        texto.setText(mensaje);
         return true;
     }
 }
