@@ -1,26 +1,21 @@
 package com.example.butiaandroid.main;
 
 
+import android.util.Log;
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
 import java.io.InputStreamReader;
-import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
-import java.io.Writer;
 import java.net.InetAddress;
 import java.net.Socket;
-import java.util.ArrayList;
 
 //import org.apache.commons.net.telnet.EchoOptionHandler;
 //import org.apache.commons.net.telnet.InvalidTelnetOptionException;
 //import org.apache.commons.net.telnet.SuppressGAOptionHandler;
 //import org.apache.commons.net.telnet.TelnetClient;
 //import org.apache.commons.net.telnet.TerminalTypeOptionHandler;
-
-import android.util.Log;
 
 public class Robot {
 
@@ -97,7 +92,6 @@ public class Robot {
         }
 
         return respuesta;
-
     }
 
     /**
@@ -124,7 +118,6 @@ public class Robot {
         }
 
         return respuesta;
-
     }
 
     /**
@@ -149,7 +142,6 @@ public class Robot {
 //              }
 
         return respuesta;
-
     }
 
     /**
@@ -172,9 +164,7 @@ public class Robot {
         }
 
         return respuesta;
-
     }
-
 
     /*****************************************************************
      * Operations to the principal module
@@ -270,7 +260,6 @@ public class Robot {
         }
     }
 
-
     /*****************************************************************
      * Operations for motores.lua driver
      *****************************************************************/
@@ -310,7 +299,6 @@ public class Robot {
 
     }
 
-
     /*****************************************************************
      * Operations for ax.lua driver
      *****************************************************************/
@@ -332,7 +320,6 @@ public class Robot {
         }
 
         return respuesta;
-
     }
 
     /**
@@ -353,7 +340,6 @@ public class Robot {
         }
 
         return respuesta;
-
     }
 
     /**
@@ -373,7 +359,6 @@ public class Robot {
         }
 
         return respuesta;
-
     }
 
     /**
@@ -393,7 +378,6 @@ public class Robot {
         }
 
         return respuesta;
-
     }
 
 
@@ -424,7 +408,6 @@ public class Robot {
         }
 
         return carga;
-
     }
 
     /**
@@ -442,7 +425,6 @@ public class Robot {
         Log.w("Robot getVersion()", "Version = " + this.version);
 
         return ver;
-
     }
 
     /**
@@ -473,7 +455,6 @@ public class Robot {
         }
 
         return Integer.parseInt(valor);
-
     }
 
     /**
@@ -506,7 +487,6 @@ public class Robot {
             distancia = this.callModule("distanc:" + number, "getValue", "");
         }
         return Integer.parseInt(distancia);
-
     }
 
     /**
@@ -524,7 +504,6 @@ public class Robot {
         }
 
         return Integer.parseInt(valor);
-
     }
 
     /**
@@ -542,7 +521,6 @@ public class Robot {
         }
 
         return Integer.parseInt(temperatura);
-
     }
 
     /**
@@ -560,7 +538,6 @@ public class Robot {
         }
 
         return Integer.parseInt(valor);
-
     }
 
     /**
@@ -578,7 +555,6 @@ public class Robot {
         }
 
         return Integer.parseInt(valor);
-
     }
 
     /**
@@ -596,7 +572,6 @@ public class Robot {
         }
 
         return Integer.parseInt(valor);
-
     }
 
     /**
@@ -616,7 +591,6 @@ public class Robot {
         }
 
         return Integer.parseInt(valor);
-
     }
 
     /**
@@ -634,7 +608,6 @@ public class Robot {
         }
 
         return Integer.parseInt(valor);
-
     }
 
     /**
@@ -653,7 +626,6 @@ public class Robot {
         }
 
         return respuesta;
-
     }
 
     /**

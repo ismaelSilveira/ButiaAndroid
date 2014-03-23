@@ -77,7 +77,6 @@ public class ControlActivity extends Activity implements OnTouchListener {
         if (Math.pow(x - control.getCentroX(), 2) + (Math.pow(y - control.getCentroY(), 2)) <= Math.pow(control.getRadio(),2)){
             mensaje = mensaje + "adentro: x=" + x + ", y=" + y;
 
-            //set the image to the new coordinates based on where the user is touching and dragging
             setPosition(x, y);
         }
         else{

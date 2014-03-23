@@ -15,6 +15,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+
 import java.util.regex.Pattern;
 
 /**
@@ -45,9 +46,10 @@ public class ConnectActivity extends Activity {
 
             //que lo haga siempre que se conecta
             SharedPreferences preferences = getSharedPreferences("datos", Context.MODE_PRIVATE);
-            preferences.edit().putString("IP", ip);
-            preferences.edit().putString("PORT", puerto);
-            preferences.edit().commit();
+            SharedPreferences.Editor editor = preferences.edit();
+            editor.putString("IP", ip);
+            editor.putString("PORT", puerto);
+            editor.commit();
 
             return true;
         }
