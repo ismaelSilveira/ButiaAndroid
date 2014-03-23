@@ -15,9 +15,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
-
 import java.util.regex.Pattern;
-
 
 /**
  * A login screen that offers login via email/password.
@@ -32,7 +30,7 @@ public class ConnectActivity extends Activity {
     private View mLoginFormView;
     private CheckBox enableVideo;
 
-    private class ConectarButia extends AsyncTask<String, Void, Boolean > {
+    private class ConectarButia extends AsyncTask<String, Void, Boolean> {
         @Override
         protected Boolean doInBackground(String... params) {
             String ip = params[0];
@@ -60,7 +58,7 @@ public class ConnectActivity extends Activity {
 
             if (result) {
                 conecto();
-                finish();
+                //finish();
             } else {
                 in_ip.setError(getString(R.string.error_connect));
                 in_ip.requestFocus();
@@ -200,7 +198,7 @@ public class ConnectActivity extends Activity {
     private void conecto(){
         Intent myIntent = new Intent(this, ControlActivity.class);
         startActivity(myIntent);
-        finish();
+        //finish();
     }
 
 
