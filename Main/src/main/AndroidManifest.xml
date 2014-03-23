@@ -9,7 +9,8 @@
         android:theme="@style/AppTheme" >
         <activity
             android:name="com.example.butiaandroid.main.ConnectActivity"
-            android:label="ButiaAndroid" >
+            android:label="ButiaAndroid"
+            android:theme="@style/NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
