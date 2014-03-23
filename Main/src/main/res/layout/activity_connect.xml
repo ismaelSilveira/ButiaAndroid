@@ -72,14 +72,23 @@
                         flatui:cornerRadius="1dp"
                     android:layout_marginTop="16dip" />
 
-                    <com.cengalabs.flatui.views.FlatButton
+                        <CheckBox
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Recordar"
+                            android:id="@id/remember"
+                            android:layout_gravity="left"
+                            android:layout_marginTop="16dp" />
+
+                        <com.cengalabs.flatui.views.FlatButton
                         android:id="@id/conectar"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_width="173dp"
+                        android:layout_height="35dp"
                         android:layout_marginTop="16dp"
-                        android:text="Conectar!"
+                        android:text="Conectar"
                         flatui:theme="Sea"
-                        flatui:textAppearance="light"/>
+                        flatui:textAppearance="light"
+                            android:focusable="false" />
 
                     </LinearLayout>
 

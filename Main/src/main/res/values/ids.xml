@@ -7,4 +7,5 @@
     <item name="ip" type="id">ip</item>
     <item name="puerto" type="id">puerto</item>
     <item name="conectar" type="id">conectar</item>
+    <item name="remember" type="id">remember</item>
 </resources>

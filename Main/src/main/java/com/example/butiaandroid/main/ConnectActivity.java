@@ -4,14 +4,19 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
+
+import java.util.regex.Pattern;
 
 
 /**
@@ -19,14 +24,12 @@ import android.widget.EditText;
 
  */
 public class ConnectActivity extends Activity {
-
-
     // UI references.
     private EditText in_ip;
     private EditText in_puerto;
-
     private View mProgressView;
     private View mLoginFormView;
+    private CheckBox remember;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +39,11 @@ public class ConnectActivity extends Activity {
         // Set up the login form.
         in_ip = (EditText) findViewById(R.id.ip);
         in_puerto = (EditText) findViewById(R.id.puerto);
+        remember = (CheckBox) findViewById(R.id.remember);
+
+        SharedPreferences preferences = getSharedPreferences("datos", Context.MODE_PRIVATE);
+        in_ip.setText(preferences.getString("IP",""));
+        in_puerto.setText(preferences.getString("PORT",""));
 
         Button mEmailSignInButton = (Button) findViewById(R.id.conectar);
         mEmailSignInButton.setOnClickListener(new View.OnClickListener() {
@@ -48,9 +56,6 @@ public class ConnectActivity extends Activity {
         mLoginFormView = findViewById(R.id.connect_form);
         mProgressView = findViewById(R.id.login_progress);
     }
-
-
-
 
     /**
      * Attempts to sign in or register the account specified by the login form.
@@ -69,7 +74,6 @@ public class ConnectActivity extends Activity {
 
         boolean cancel = false;
         View focusView = null;
-
 
         // Check for a valid password, if the user entered one.
         if (TextUtils.isEmpty(ip) || !isIPValid(ip)) {
@@ -99,18 +103,19 @@ public class ConnectActivity extends Activity {
             mConnectTask.execute(ip);
 */
             new ConectarButia().execute(ip, puerto);
-
-
+            if (remember.isChecked())
+            {
+                SharedPreferences preferences = getSharedPreferences("datos", Context.MODE_PRIVATE);
+                preferences.edit().putString("IP", ip);
+                preferences.edit().putString("PORT", puerto);
+                preferences.edit().commit();
+            }
         }
     }
 
-
-
-
-
     private boolean isIPValid(String ip) {
-        //TODO: Replace this with your own logic
-        return ip.contains(".");
+        String patron = "^([1-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])(\\.([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])){2}(\\.([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5]))$";
+        return Pattern.compile(patron).matcher(ip).matches();
     }
 
     private boolean isPuertoValid(String puerto) {
@@ -154,17 +159,11 @@ public class ConnectActivity extends Activity {
         }
     }
 
-private void conecto(){
-    Intent myIntent = new Intent(this, ControlActivity.class);
-    startActivity(myIntent);
-    finish();
-}
-
-
-
-
-
-
+    private void conecto(){
+        Intent myIntent = new Intent(this, ControlActivity.class);
+        startActivity(myIntent);
+        finish();
+    }
 
     private class ConectarButia extends AsyncTask<String, Void, Boolean > {
 
