@@ -74,20 +74,24 @@ public class ControlActivity extends Activity implements OnTouchListener {
         int y = (int) motionEvent.getRawY();
         String mensaje = "";
 
-        if (Math.pow(x - control.getCentroX(), 2) + (Math.pow(y - control.getCentroY(), 2)) <= Math.pow(control.getRadio(),2)){
-            mensaje = mensaje + "adentro: x=" + x + ", y=" + y;
+        if (motionEvent.getAction() == MotionEvent.ACTION_DOWN || motionEvent.getAction() == MotionEvent.ACTION_MOVE) {
 
-            setPosition(x, y);
-        }
-        else{
-            mensaje = mensaje + "afuera";
-        }
-        if (motionEvent.getAction() == MotionEvent.ACTION_UP)
-        {
+            if (Math.pow(x - control.getCentroX(), 2) + (Math.pow(y - control.getCentroY(), 2)) <= Math.pow(control.getRadio(), 2)) {
+                mensaje = mensaje + "adentro: x=" + x + ", y=" + y;
+                setPosition(x, y);
+            } else {
+                mensaje = mensaje + "afuera";
+            }
+
+        } else{
+
             mensaje = "CentroX: " + control.getCentroX() + ", CentroY: " + control.getCentroY() + ".";
             setPosition((int) control.getCentroX(), (int) control.getCentroY());
+
         }
+
         texto.setText(mensaje);
         return true;
+
     }
 }

@@ -8,12 +8,14 @@
 
     <!-- Login progress -->
     <ProgressBar
+        android:paddingTop="@dimen/activity_vertical_margin"
         android:id="@+id/login_progress"
         style="?android:attr/progressBarStyleLarge"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
-        android:visibility="gone"/>
+        android:visibility="gone"
+        android:layout_gravity="center" />
 
     <!--fondo -->
     <FrameLayout
@@ -42,8 +44,10 @@
                 android:textSize="32dip"
                 android:gravity="center"
                 flatui:fontFamily="Roboto"
-                flatui:textColor="light"/>
+                flatui:textColor="light"
+                android:textStyle="bold" />
             <com.cengalabs.flatui.views.FlatTextView
+                android:id="@id/textinfo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dip"

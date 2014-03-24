@@ -10,11 +10,14 @@ import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.Html;
 import android.text.TextUtils;
+import android.text.method.LinkMovementMethod;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import java.util.regex.Pattern;
 
@@ -31,49 +34,6 @@ public class ConnectActivity extends Activity {
     private View mLoginFormView;
     private CheckBox enableVideo;
 
-    private class ConectarButia extends AsyncTask<String, Void, Boolean> {
-        @Override
-        protected Boolean doInBackground(String... params) {
-            String ip = params[0];
-            String puerto = params[1];
-
-            try {
-                // Simulate network access.
-                Thread.sleep(2000);
-            } catch (Exception e) {
-                return false;
-            }
-
-            //que lo haga siempre que se conecta
-            SharedPreferences preferences = getSharedPreferences("datos", Context.MODE_PRIVATE);
-            SharedPreferences.Editor editor = preferences.edit();
-            editor.putString("IP", ip);
-            editor.putString("PORT", puerto);
-            editor.commit();
-
-            return true;
-        }
-
-        @Override
-        protected void onPostExecute(Boolean result) {
-            showProgress(false);
-
-            if (result) {
-                conecto();
-                //finish();
-            } else {
-                in_ip.setError(getString(R.string.error_connect));
-                in_ip.requestFocus();
-            }
-            //  super.onPostExecute(result);
-
-        }
-
-        @Override
-        protected void onCancelled() {
-            showProgress(false);
-        }
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,10 +45,6 @@ public class ConnectActivity extends Activity {
         in_puerto = (EditText) findViewById(R.id.puerto);
         enableVideo = (CheckBox) findViewById(R.id.enableVideo);
 
-        SharedPreferences preferences = getSharedPreferences("datos", Context.MODE_PRIVATE);
-        in_ip.setText(preferences.getString("IP",""));
-        in_puerto.setText(preferences.getString("PORT",""));
-
         Button mEmailSignInButton = (Button) findViewById(R.id.conectar);
         mEmailSignInButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -99,6 +55,21 @@ public class ConnectActivity extends Activity {
 
         mLoginFormView = findViewById(R.id.connect_form);
         mProgressView = findViewById(R.id.login_progress);
+
+
+        TextView infoText = (TextView) findViewById(R.id.textinfo);
+        infoText.setMovementMethod(LinkMovementMethod.getInstance());
+        infoText.setText(Html.fromHtml(getString(R.string.mas_link)));
+
+
+
+        SharedPreferences preferences = getSharedPreferences("datos", Context.MODE_PRIVATE);
+        in_ip.setText(preferences.getString("IP",""));
+        in_puerto.setText(preferences.getString("PORT",""));
+
+
+
+
     }
 
     /**
@@ -141,11 +112,7 @@ public class ConnectActivity extends Activity {
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
             showProgress(true);
-            //mConnectTask = new ConectarButia();
-/**
-            mConnectTask =new MiTarea();
-            mConnectTask.execute(ip);
-*/
+
             new ConectarButia().execute(ip, puerto);
         }
     }
@@ -200,7 +167,6 @@ public class ConnectActivity extends Activity {
     private void conecto(){
         Intent myIntent = new Intent(this, ControlActivity.class);
         startActivity(myIntent);
-        //finish();
     }
 
 
@@ -208,11 +174,54 @@ public class ConnectActivity extends Activity {
 
 
 
+    private class ConectarButia extends AsyncTask<String, Void, Boolean > {
+
+        @Override
+        protected Boolean  doInBackground(String...params) {
+            String ip = params[0];
+            String puerto= params[1];
+
+            try {
+                // Simulate network access.
+               // Thread.sleep(2000);
+            } catch (Exception e) {
+                return  false;
+           }
+
+
+           //que lo haga siempre que se conecta
+            SharedPreferences preferences = getSharedPreferences("datos", Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = preferences.edit();
+            editor.putString("IP", ip);
+            editor.putString("PORT", puerto);
+            editor.commit();
+
+            return true;
+        }
 
 
 
 
+        @Override
+        protected void onPostExecute(Boolean result) {
+            showProgress(false);
 
+            if (result) {
+                conecto();
+            } else {
+                in_ip.setError(getString(R.string.error_connect));
+                in_ip.requestFocus();
+            }
+
+        }
+
+        @Override
+        protected void onCancelled() {
+            showProgress(false);
+        }
+
+
+    }
 
 
 }

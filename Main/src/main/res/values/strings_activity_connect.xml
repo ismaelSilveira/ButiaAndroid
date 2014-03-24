@@ -10,4 +10,6 @@
     <string name="error_invalid_ip">El formato de la dirección IP es incorrecto</string>
     <string name="error_connect">Error al conectar con tu Robot, por favor revisa que la dirección IP y el puerto sean correctos</string>
     <string name="error_field_required">This field is required</string>
+    <string name="mas_link">Si no sabes como hacerlo, pasa por  &lt;a href=http://www.fing.edu.uy/inco/proyectos/butia/mediawiki>aquí&lt;/a>.</string>
+
 </resources>

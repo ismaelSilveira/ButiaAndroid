@@ -9,4 +9,5 @@
     <item name="conectar" type="id">conectar</item>
     <item name="remember" type="id">remember</item>
     <item name="enableVideo" type="id" />
+    <item name="textinfo" type="id">textinfo</item>
 </resources>
