@@ -79,6 +79,34 @@ public class ControlActivity extends Activity implements OnTouchListener {
             if (Math.pow(x - control.getCentroX(), 2) + (Math.pow(y - control.getCentroY(), 2)) <= Math.pow(control.getRadio(), 2)) {
                 mensaje = mensaje + "adentro: x=" + x + ", y=" + y;
                 setPosition(x, y);
+
+
+                //se calcula la velocidaad
+                double distCentro= Math.sqrt(Math.pow(x - control.getCentroX(), 2) + (Math.pow(y - control.getCentroY(), 2)));
+                double velRuedaRapida = (distCentro / control.getRadio()) * 400;//constante vel maxima
+                double alpha= Math.atan(Math.abs(y-control.getCentroY()) / Math.abs(x - control.getCentroX()));
+                
+                double velDerecha;
+                double velIzquierda;
+
+                //se reparte en 4 cuadrantes
+                //cuadrante 1
+                if (x>control.getCentroX() && y > control.getCentroY()){
+                    velIzquierda = velRuedaRapida;
+                    velDerecha = (alpha/90) * velRuedaRapida;
+
+                } else if  (x<control.getCentroX() && y > control.getCentroY()){
+
+                }
+
+
+
+
+
+
+
+
+
             } else {
                 mensaje = mensaje + "afuera";
             }

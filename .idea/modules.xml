@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/ButiaAndroid.iml" filepath="$PROJECT_DIR$/ButiaAndroid.iml" />
       <module fileurl="file://$PROJECT_DIR$/Main/Main.iml" filepath="$PROJECT_DIR$/Main/Main.iml" />
       <module fileurl="file://$PROJECT_DIR$/butiaAndroid.iml" filepath="$PROJECT_DIR$/butiaAndroid.iml" />
     </modules>
