@@ -171,11 +171,6 @@ public class ConnectActivity extends Activity {
         startActivity(myIntent);
     }
 
-
-
-
-
-
     private class ConectarButia extends AsyncTask<String, Void, Boolean > {
 
         @Override
@@ -185,7 +180,11 @@ public class ConnectActivity extends Activity {
 
             try {
                 // Simulate network access.
-               // Thread.sleep(2000);
+                Robot butia = Robot.getInstance();
+                butia.conectar(ip, Integer.parseInt(puerto));
+                System.out.println("***************************** Módulos *****************************");
+                System.out.println(butia.get_modules_list());
+                butia.set2MotorSpeed("1", "200", "1", "200");
             } catch (Exception e) {
                 return  false;
            }
