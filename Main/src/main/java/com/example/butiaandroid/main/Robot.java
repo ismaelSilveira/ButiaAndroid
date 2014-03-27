@@ -19,6 +19,9 @@ import java.net.Socket;
 
 public class Robot {
 
+    private static Robot miRobot= null;
+
+
     public static final String ERROR_SENSOR_READ = "-1";
     public static final int ERROR_SENSOR_READ_VALUE = -1;
     public static final String BUTIA_1 = "20";
@@ -33,11 +36,33 @@ public class Robot {
     private BufferedReader in;
     private String version;
 
+
+    public void conectar (String host, int port) {
+            this.host = host;
+            this.port = port;
+            this.version = Robot.ERROR_SENSOR_READ;
+            this.reconnect();
+            this.getVersion();
+    }
+
+
+
+    public Robot getInstance() {
+        if (miRobot==null) {
+            miRobot=new Robot();
+        }
+        return miRobot;
+    }
+
+
+
+
     /**
      *
-     */
-    public Robot() {
-        super();
+
+    private Robot() {
+        ///rodrigo: ehhh super porque??¿¿¿ de que mierdaa extiende, comento esto
+        //super();
         this.host = Robot.BOBOT_HOST;
         this.port = Robot.BOBOT_PORT;
         this.version = Robot.ERROR_SENSOR_READ;
@@ -45,19 +70,24 @@ public class Robot {
         this.getVersion();
     }
 
-    /**
-     *
-     * @param host
-     * @param port
-     */
-    public Robot(String host, int port) {
-        super();
+
+    private Robot(String host, int port) {
+        ///rodrigo: todo mal todo mal
+        //super();
         this.host = host;
         this.port = port;
         this.version = Robot.ERROR_SENSOR_READ;
         this.reconnect();
         this.getVersion();
     }
+*/
+
+    private Robot() {
+        this.host = Robot.BOBOT_HOST;
+        this.port = Robot.BOBOT_PORT;
+        this.version = Robot.ERROR_SENSOR_READ;
+    }
+
 
     /**
      * Executes a command in butia.

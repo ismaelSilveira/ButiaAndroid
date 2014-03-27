@@ -19,7 +19,6 @@
         android:layout_gravity="center" />
 
     <ScrollView android:layout_width="fill_parent" android:layout_height="match_parent"
-        android:background="#e55a00"
         android:fillViewport="true">
 
             <LinearLayout
@@ -146,10 +145,11 @@
                             android:gravity="center"
                             flatui:fontFamily="Roboto"/>
                         <com.cengalabs.flatui.views.FlatTextView
+                            android:id="@id/textgit"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:textColor="#808080"
-                            android:text="Puedes encontrar ButiaAndroid en github, hasta que el topo borre el repositorio."
+                            android:text="Puedes encontrar ButiaAndroid en github, hasta que el topo explote el repositorio."
                             android:textSize="15dip"
                             android:gravity="center"
                             flatui:fontFamily="Roboto"/>

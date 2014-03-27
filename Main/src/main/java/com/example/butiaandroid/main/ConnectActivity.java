@@ -56,11 +56,13 @@ public class ConnectActivity extends Activity {
         mLoginFormView = findViewById(R.id.connect_form);
         mProgressView = findViewById(R.id.login_progress);
 
-
         TextView infoText = (TextView) findViewById(R.id.textinfo);
         infoText.setMovementMethod(LinkMovementMethod.getInstance());
         infoText.setText(Html.fromHtml(getString(R.string.mas_link)));
 
+        TextView gitText = (TextView) findViewById(R.id.textgit);
+        gitText.setMovementMethod(LinkMovementMethod.getInstance());
+        gitText.setText(Html.fromHtml(getString(R.string.mas_git)));
 
 
         SharedPreferences preferences = getSharedPreferences("datos", Context.MODE_PRIVATE);
