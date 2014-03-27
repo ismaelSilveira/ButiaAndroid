@@ -85,7 +85,7 @@ public class ControlActivity extends Activity implements OnTouchListener {
                 double distCentro= Math.sqrt(Math.pow(x - control.getCentroX(), 2) + (Math.pow(y - control.getCentroY(), 2)));
                 double velRuedaRapida = (distCentro / control.getRadio()) * 400;//constante vel maxima
                 double alpha= Math.atan(Math.abs(y-control.getCentroY()) / Math.abs(x - control.getCentroX()));
-                
+
                 double velDerecha;
                 double velIzquierda;
 
