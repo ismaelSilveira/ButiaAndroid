@@ -11,7 +11,7 @@
     <string name="error_connect">Error al conectar con tu Robot, por favor revisa que la dirección IP y el puerto sean correctos</string>
     <string name="error_field_required">This field is required</string>
     <string name="mas_link">Si no sabes como hacerlo, pasa por  &lt;a href=http://www.fing.edu.uy/inco/proyectos/butia/mediawiki/index.php/Butia_android>aquí&lt;/a>.</string>
-    <string name="mas_git">Puedes encontrar ButiaAndroid en &lt;a href=https://github.com/ismaelSilveira/ButiaAndroid>github&lt;/a> y ver codigo, antes que el topo explote el repositorio..</string>
+    <string name="mas_git">Puedes encontrar ButiaAndroid en &lt;a href=https://github.com/ismaelSilveira/ButiaAndroid>github&lt;/a> y ver su codigo, antes que el topo explote el repositorio.</string>
 
 
 </resources>

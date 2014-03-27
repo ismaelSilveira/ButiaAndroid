@@ -47,7 +47,7 @@ public class Robot {
 
 
 
-    public Robot getInstance() {
+    public static Robot getInstance() {
         if (miRobot==null) {
             miRobot=new Robot();
         }
@@ -55,7 +55,9 @@ public class Robot {
     }
 
 
+    private Robot() {
 
+    }
 
     /**
      *
@@ -82,11 +84,7 @@ public class Robot {
     }
 */
 
-    private Robot() {
-        this.host = Robot.BOBOT_HOST;
-        this.port = Robot.BOBOT_PORT;
-        this.version = Robot.ERROR_SENSOR_READ;
-    }
+
 
 
     /**
