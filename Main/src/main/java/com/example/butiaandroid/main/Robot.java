@@ -98,7 +98,7 @@ public class Robot {
         String respuesta = Robot.ERROR_SENSOR_READ;
         try {
 
-            Log.w("Robot doCommand()", "Mensaje: " + msg);
+           // Log.w("Robot doCommand()", "Mensaje: " + msg);
 
             this.out = new PrintWriter (new BufferedWriter (
                     new OutputStreamWriter (this.client.getOutputStream())), true);
@@ -112,10 +112,10 @@ public class Robot {
                 respuesta = Robot.ERROR_SENSOR_READ;
             }
 
-            Log.w("Robot doCommand()", "Respuesta: " + respuesta);
+            //Log.w("Robot doCommand()", "Respuesta: " + respuesta);
 
         } catch (Exception e) {
-            Log.e("ROBOT", e.getMessage());
+           // Log.e("ROBOT", e.getMessage());
             respuesta = Robot.ERROR_SENSOR_READ;
         }
 

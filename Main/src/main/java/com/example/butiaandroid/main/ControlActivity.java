@@ -19,6 +19,11 @@ public class ControlActivity extends Activity implements OnTouchListener {
     TextView texto;
     LayoutControl control;
     ImageView robot;
+    int velMAX = 1000;
+
+
+    Robot butia;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +37,10 @@ public class ControlActivity extends Activity implements OnTouchListener {
        // canvas.drawCircle(getWidth()/2, getHeight()/2, 100, paint);
 
         control.setOnTouchListener(this);
+
+        butia = Robot.getInstance();
+       // butia.set2MotorSpeed("1","380","1","3");
+
     }
 
     @Override
@@ -79,32 +88,62 @@ public class ControlActivity extends Activity implements OnTouchListener {
             if (Math.pow(x - control.getCentroX(), 2) + (Math.pow(y - control.getCentroY(), 2)) <= Math.pow(control.getRadio(), 2)) {
                 mensaje = mensaje + "adentro: x=" + x + ", y=" + y;
                 setPosition(x, y);
-
-
                 //se calcula la velocidaad
-                double distCentro= Math.sqrt(Math.pow(x - control.getCentroX(), 2) + (Math.pow(y - control.getCentroY(), 2)));
-                double velRuedaRapida = (distCentro / control.getRadio()) * 400;//constante vel maxima
-                double alpha= Math.atan(Math.abs(y-control.getCentroY()) / Math.abs(x - control.getCentroX()));
+                Double distCentro= Math.sqrt(Math.pow(x - control.getCentroX(), 2) + (Math.pow(y - control.getCentroY(), 2)));
+                Double velRuedaRapida = (distCentro / control.getRadio()) * velMAX;//constante vel maxima
 
-                double velDerecha;
-                double velIzquierda;
+                Integer velDerecha=0;
+                Integer velIzquierda=0;
+                Integer sentido=0;
 
                 //se reparte en 4 cuadrantes
-                //cuadrante 1
-                if (x>control.getCentroX() && y > control.getCentroY()){
-                    velIzquierda = velRuedaRapida;
-                    velDerecha = (alpha/90) * velRuedaRapida;
+                //PRIMEer
+                if ((x > control.getCentroX() && y < control.getCentroY())){
+                    Double alpha= Math.toDegrees(Math.atan(Math.abs(y-control.getCentroY())/ Math.abs(x - control.getCentroX())));
+                    velIzquierda = velRuedaRapida.intValue();
+                    velDerecha = ((Double)((alpha/90) * velRuedaRapida)).intValue();
+                    sentido = 1;
 
-                } else if  (x<control.getCentroX() && y > control.getCentroY()){
+                //4 cuadrante
+                }else if ((x < control.getCentroX() && y < control.getCentroY())){
+                    Double alpha= Math.toDegrees(Math.atan(Math.abs(y-control.getCentroY())/ Math.abs(x - control.getCentroX())));
+                    velDerecha = velRuedaRapida.intValue();
+                    velIzquierda = ((Double)((alpha/90) * velRuedaRapida)).intValue();
+                    sentido = 1;
 
+                } else   if ((x > control.getCentroX() && y > control.getCentroY())){
+                    Double alpha= Math.toDegrees(Math.atan(Math.abs(y-control.getCentroY())/ Math.abs(x - control.getCentroX())));
+                    velIzquierda = velRuedaRapida.intValue();
+                    velDerecha = ((Double)((alpha/90) * velRuedaRapida)).intValue();
+                    sentido = 0;
+
+                }else if ((x < control.getCentroX() && y > control.getCentroY())){
+                    Double alpha= Math.toDegrees(Math.atan(Math.abs(y-control.getCentroY())/ Math.abs(x - control.getCentroX())));
+                    velDerecha = velRuedaRapida.intValue();
+                    velIzquierda = ((Double)((alpha/90) * velRuedaRapida)).intValue();
+                    sentido = 0;
                 }
 
+                    // MUEVE LOS MOTORES!!
+                 butia.set2MotorSpeed(String.valueOf(sentido),String.valueOf(velIzquierda),String.valueOf(sentido),String.valueOf(velDerecha));
+                // butia.set2MotorSpeed("1","380","1","3");
 
 
+/*
+                System.out.print(velIzquierda);
+                System.out.print(velDerecha);
+                System.out.print(alpha);
 
-
-
-
+*/
+                mensaje = "sentido" + String.valueOf(sentido) + " velocidad izq " + String.valueOf(velIzquierda)
+                 + " velocidad der " + String.valueOf(velDerecha);
+/*
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+*/
 
 
             } else {
@@ -115,6 +154,9 @@ public class ControlActivity extends Activity implements OnTouchListener {
 
             mensaje = "CentroX: " + control.getCentroX() + ", CentroY: " + control.getCentroY() + ".";
             setPosition((int) control.getCentroX(), (int) control.getCentroY());
+            butia.set2MotorSpeed("0","0","0","0");
+
+
 
         }
 

@@ -182,9 +182,8 @@ public class ConnectActivity extends Activity {
                 // Simulate network access.
                 Robot butia = Robot.getInstance();
                 butia.conectar(ip, Integer.parseInt(puerto));
-                System.out.println("***************************** Módulos *****************************");
-                System.out.println(butia.get_modules_list());
-                butia.set2MotorSpeed("1", "200", "1", "200");
+               // System.out.println("***************************** Módulos *****************************");
+               // System.out.println(butia.get_modules_list());
             } catch (Exception e) {
                 return  false;
            }
