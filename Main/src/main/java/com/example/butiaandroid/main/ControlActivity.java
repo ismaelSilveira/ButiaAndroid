@@ -86,15 +86,14 @@ public class ControlActivity extends Activity implements OnTouchListener {
         if (motionEvent.getAction() == MotionEvent.ACTION_DOWN || motionEvent.getAction() == MotionEvent.ACTION_MOVE) {
 
             if (Math.pow(x - control.getCentroX(), 2) + (Math.pow(y - control.getCentroY(), 2)) <= Math.pow(control.getRadio(), 2)) {
-                mensaje = mensaje + "adentro: x=" + x + ", y=" + y;
                 setPosition(x, y);
                 //se calcula la velocidaad
                 Double distCentro= Math.sqrt(Math.pow(x - control.getCentroX(), 2) + (Math.pow(y - control.getCentroY(), 2)));
                 Double velRuedaRapida = (distCentro / control.getRadio()) * velMAX;//constante vel maxima
 
-                Integer velDerecha=0;
-                Integer velIzquierda=0;
-                Integer sentido=0;
+                int velDerecha=0;
+                int velIzquierda=0;
+                int sentido=0;
 
                 //se reparte en 4 cuadrantes
                 //PRIMEer
@@ -126,33 +125,16 @@ public class ControlActivity extends Activity implements OnTouchListener {
 
                     // MUEVE LOS MOTORES!!
                  butia.set2MotorSpeed(String.valueOf(sentido),String.valueOf(velIzquierda),String.valueOf(sentido),String.valueOf(velDerecha));
-                // butia.set2MotorSpeed("1","380","1","3");
-
-
-/*
-                System.out.print(velIzquierda);
-                System.out.print(velDerecha);
-                System.out.print(alpha);
-
-*/
-                mensaje = "sentido" + String.valueOf(sentido) + " velocidad izq " + String.valueOf(velIzquierda)
-                 + " velocidad der " + String.valueOf(velDerecha);
-/*
-                try {
-                    Thread.sleep(1000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-*/
+                  // mensaje = "sentido" + String.valueOf(sentido) + " velocidad izq " + String.valueOf(velIzquierda) + " velocidad der " + String.valueOf(velDerecha);
 
 
             } else {
-                mensaje = mensaje + "afuera";
+               // mensaje = mensaje + "afuera";
             }
 
         } else{
 
-            mensaje = "CentroX: " + control.getCentroX() + ", CentroY: " + control.getCentroY() + ".";
+           // mensaje = "CentroX: " + control.getCentroX() + ", CentroY: " + control.getCentroY() + ".";
             setPosition((int) control.getCentroX(), (int) control.getCentroY());
             butia.set2MotorSpeed("0","0","0","0");
 
@@ -160,7 +142,7 @@ public class ControlActivity extends Activity implements OnTouchListener {
 
         }
 
-        texto.setText(mensaje);
+       // texto.setText(mensaje);
         return true;
 
     }
