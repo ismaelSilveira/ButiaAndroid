@@ -167,7 +167,7 @@ public class ConnectActivity extends Activity {
     }
 
     private void conecto(){
-        Intent myIntent = new Intent(this, ControlActivity.class);
+        Intent myIntent = new Intent(this, VideoStreaming.class);
         startActivity(myIntent);
     }
 
@@ -180,8 +180,8 @@ public class ConnectActivity extends Activity {
 
             try {
                 // Simulate network access.
-                Robot butia = Robot.getInstance();
-                butia.conectar(ip, Integer.parseInt(puerto));
+            // Robot butia = Robot.getInstance();
+            //  butia.conectar(ip, Integer.parseInt(puerto));
                // System.out.println("***************************** Módulos *****************************");
                // System.out.println(butia.get_modules_list());
             } catch (Exception e) {

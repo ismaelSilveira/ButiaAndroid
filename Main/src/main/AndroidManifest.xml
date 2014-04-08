@@ -10,17 +10,22 @@
         <activity
             android:name="com.example.butiaandroid.main.ConnectActivity"
             android:label="ButiaAndroid"
-            android:windowSoftInputMode="stateHidden"
-            android:theme="@style/NoActionBar">
+            android:theme="@style/NoActionBar"
+            android:windowSoftInputMode="stateHidden" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
-            android:name=".ControlActivity"
+            android:name="com.example.butiaandroid.main.ControlActivity"
             android:label="ButiaAndroid"
             android:windowSoftInputMode="adjustResize" >
+        </activity>
+        <activity
+            android:name="com.example.butiaandroid.main.VideoStreaming"
+            android:label="@string/title_activity_video_streaming" >
         </activity>
     </application>
 
