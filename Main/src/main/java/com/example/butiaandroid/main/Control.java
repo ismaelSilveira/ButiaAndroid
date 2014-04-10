@@ -17,7 +17,7 @@ public class Control  implements View.OnTouchListener  {
     //TextView texto;
     LayoutControl control;
     ImageView robot;
-    int velMAX = 1000;
+    int velMAX = 1023;
 
 
     Robot butia =  Robot.getInstance();;
