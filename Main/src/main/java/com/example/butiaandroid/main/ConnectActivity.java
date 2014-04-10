@@ -167,8 +167,16 @@ public class ConnectActivity extends Activity {
     }
 
     private void conecto(){
-        Intent myIntent = new Intent(this, VideoStreaming.class);
+        Intent myIntent;
+
+        if (enableVideo.isChecked()){
+            myIntent = new Intent(this, StreamingActivity.class);
+        }else{
+            myIntent = new Intent(this, SinStreamingActivity.class);
+        }
         startActivity(myIntent);
+        showProgress(false);
+
     }
 
     private class ConectarButia extends AsyncTask<String, Void, Boolean > {
@@ -180,8 +188,8 @@ public class ConnectActivity extends Activity {
 
             try {
                 // Simulate network access.
-            // Robot butia = Robot.getInstance();
-            //  butia.conectar(ip, Integer.parseInt(puerto));
+                Robot butia = Robot.getInstance();
+                butia.conectar(ip, Integer.parseInt(puerto));
                // System.out.println("***************************** Módulos *****************************");
                // System.out.println(butia.get_modules_list());
             } catch (Exception e) {

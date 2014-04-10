@@ -19,12 +19,11 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.example.butiaandroid.main.ControlActivity"
-            android:label="ButiaAndroid"
-            android:windowSoftInputMode="adjustResize" >
+            android:name=".SinStreamingActivity"
+            android:label="ButiaAndroid">
         </activity>
         <activity
-            android:name="com.example.butiaandroid.main.VideoStreaming"
+            android:name=".StreamingActivity"
             android:label="@string/title_activity_video_streaming" >
         </activity>
     </application>

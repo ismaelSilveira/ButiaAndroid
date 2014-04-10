@@ -21,6 +21,27 @@ public class LayoutControl extends RelativeLayout {
     private int locationX;
     private int locationY;
 
+
+    String colorBorde="#CCD8D8D8";
+    String colorSombra="#80D8D8D8";
+    String colorCirculo ="#FFFFFFFF";
+
+
+    public void setTransparente (boolean b){
+        if (b){
+            colorBorde="#CCD8D8D8";
+            colorSombra="#80D8D8D8";
+            colorCirculo ="#80FFFFFF";
+        }else {
+            colorBorde="#CCD8D8D8";
+            colorSombra="#80D8D8D8";
+            colorCirculo ="#FFFFFFFF";
+        }
+
+    }
+
+
+
     public float getRadio(){
         return radio;
     }
@@ -84,15 +105,15 @@ public class LayoutControl extends RelativeLayout {
         init();
         //sombra
         Paint paintBorde2 = new Paint();
-        paintBorde2.setColor(Color.parseColor("#80D8D8D8"));
+        paintBorde2.setColor(Color.parseColor(colorSombra));
         canvas.drawCircle(getWidth()/2, getHeight()/2, radio+50, paintBorde2);
         //borde
         Paint paintBorde = new Paint();
-        paintBorde.setColor(Color.parseColor("#CCD8D8D8"));
+        paintBorde.setColor(Color.parseColor(colorBorde));
         canvas.drawCircle(getWidth()/2, getHeight()/2, radio+2, paintBorde);
         //circulo
         Paint paint = new Paint();
-        paint.setColor(Color.WHITE);
+        paint.setColor(Color.parseColor(colorCirculo));
         canvas.drawCircle(getWidth()/2, getHeight()/2, radio, paint);
 
     //    canvas.drawCircle(20,30,3,paint);

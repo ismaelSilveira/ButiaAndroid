@@ -1,66 +1,34 @@
 package com.example.butiaandroid.main;
 
 import android.app.Activity;
-import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import com.example.butiaandroid.main.vistas.LayoutControl;
 
-public class ControlActivity extends Activity implements OnTouchListener {
+/**
+ * Created by Rodrigo on 10/04/14.
+ */
+public class Control  implements View.OnTouchListener  {
 
-    TextView texto;
+    //TextView texto;
     LayoutControl control;
     ImageView robot;
     int velMAX = 1000;
 
 
-    Robot butia;
+    Robot butia =  Robot.getInstance();;
 
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-
-        texto = (TextView) findViewById(R.id.cord);
-        control = (LayoutControl) findViewById(R.id.control);
-        robot = (ImageView) findViewById( R.id.robot);
-
-       // canvas.drawCircle(getWidth()/2, getHeight()/2, 100, paint);
-
-        control.setOnTouchListener(this);
-
-        butia = Robot.getInstance();
-       // butia.set2MotorSpeed("1","380","1","3");
-
+    public Control(LayoutControl control, ImageView robot) {
+        this.control = control;
+        this.robot = robot;
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
-        return true;
-    }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-        if (id == R.id.action_settings) {
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
 
     @Override
     public boolean onTouch(View view, MotionEvent motionEvent) {
@@ -103,7 +71,7 @@ public class ControlActivity extends Activity implements OnTouchListener {
                     velDerecha = ((Double)((alpha/90) * velRuedaRapida)).intValue();
                     sentido = 1;
 
-                //4 cuadrante
+                    //4 cuadrante
                 }else if ((x < control.getCentroX() && y < control.getCentroY())){
                     Double alpha= Math.toDegrees(Math.atan(Math.abs(y-control.getCentroY())/ Math.abs(x - control.getCentroX())));
                     velDerecha = velRuedaRapida.intValue();
@@ -123,18 +91,18 @@ public class ControlActivity extends Activity implements OnTouchListener {
                     sentido = 0;
                 }
 
-                    // MUEVE LOS MOTORES!!
-                 butia.set2MotorSpeed(String.valueOf(sentido),String.valueOf(velIzquierda),String.valueOf(sentido),String.valueOf(velDerecha));
-                  // mensaje = "sentido" + String.valueOf(sentido) + " velocidad izq " + String.valueOf(velIzquierda) + " velocidad der " + String.valueOf(velDerecha);
+                // MUEVE LOS MOTORES!!
+                butia.set2MotorSpeed(String.valueOf(sentido),String.valueOf(velIzquierda),String.valueOf(sentido),String.valueOf(velDerecha));
+                // mensaje = "sentido" + String.valueOf(sentido) + " velocidad izq " + String.valueOf(velIzquierda) + " velocidad der " + String.valueOf(velDerecha);
 
 
             } else {
-               // mensaje = mensaje + "afuera";
+                // mensaje = mensaje + "afuera";
             }
 
         } else{
 
-           // mensaje = "CentroX: " + control.getCentroX() + ", CentroY: " + control.getCentroY() + ".";
+            // mensaje = "CentroX: " + control.getCentroX() + ", CentroY: " + control.getCentroY() + ".";
             setPosition((int) control.getCentroX(), (int) control.getCentroY());
             butia.set2MotorSpeed("0","0","0","0");
 
@@ -142,8 +110,12 @@ public class ControlActivity extends Activity implements OnTouchListener {
 
         }
 
-       // texto.setText(mensaje);
         return true;
 
     }
+
+
+
+
+
 }

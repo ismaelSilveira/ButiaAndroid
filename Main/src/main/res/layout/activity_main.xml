@@ -3,16 +3,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.example.butiaandroid.main.ControlActivity"
+    tools:context="com.example.butiaandroid.main.SinStreamingActivity"
     android:background="@color/fondoGris"
     android:padding="16dp">
-
-    <TextView
-        android:text="@string/hello_world"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="25dp"
-        android:id="@id/cord" />
 
     <com.example.butiaandroid.main.vistas.LayoutControl
         android:layout_width="match_parent"

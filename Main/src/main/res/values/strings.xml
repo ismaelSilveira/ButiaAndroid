@@ -4,6 +4,7 @@
     <string name="app_name">butiaAndroid</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Configuración</string>
+    <string name="action_cambiar">Cambiar video</string>
     <string name="title_activity_video_streaming">VideoStreaming</string>
 
 </resources>
