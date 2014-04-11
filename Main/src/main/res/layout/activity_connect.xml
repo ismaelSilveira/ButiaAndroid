@@ -78,7 +78,7 @@
                         android:hint="IP, ejemplo: 192.168.1.1 "
                         android:maxLines="1"
                         android:singleLine="true"
-                        flatui:theme="Sand"
+                        flatui:theme="Grass"
                         flatui:fieldStyle="box"
                         flatui:cornerRadius="1dip"
                         android:id="@id/ip" />
@@ -89,7 +89,7 @@
                         android:hint="Puerto, ejemplo: 8888"
                         android:maxLines="1"
                         android:singleLine="true"
-                        flatui:theme="Sand"
+                        flatui:theme="Grass"
                         flatui:fieldStyle="box"
                         flatui:cornerRadius="1dp"
                         android:layout_marginTop="16dip"
@@ -99,16 +99,18 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="16dp"
-                        flatui:size="20dip"
                         android:text="Habilitar video"
-                        flatui:theme="Sand"/>
+                        flatui:theme="Grass"
+                        android:textStyle="bold"
+                        android:textSize="23dp"
+                        flatui:size="23dip"/>
                     <com.cengalabs.flatui.views.FlatButton
                         android:id="@id/conectar"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="16dp"
                         android:text="Conectar"
-                        flatui:theme="Sand"
+                        flatui:theme="Grass"
                         flatui:textAppearance="light"/>
                 </LinearLayout>
 
