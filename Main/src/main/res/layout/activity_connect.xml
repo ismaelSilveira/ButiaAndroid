@@ -19,10 +19,9 @@
         android:layout_gravity="center" />
 
     <ScrollView android:layout_width="fill_parent" android:layout_height="match_parent"
-        android:fillViewport="true">
+        android:fillViewport="true" android:id="@id/connect_form">
 
             <LinearLayout
-                android:id="@id/connect_form"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@drawable/fondo_verde"
@@ -42,7 +41,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dip"
-                        android:text="Conéctate al BUTlÁ"
+                        android:text="Conéctate al BUTlA"
                         android:textSize="32dip"
                         android:gravity="center"
                         flatui:fontFamily="Roboto"
@@ -86,7 +85,7 @@
                         android:id="@id/puerto"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="Puerto, ejemplo: 8888"
+                        android:hint="Puerto, generalmente es el 2009"
                         android:maxLines="1"
                         android:singleLine="true"
                         flatui:theme="Grass"

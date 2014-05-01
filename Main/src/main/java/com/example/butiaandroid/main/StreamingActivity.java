@@ -44,7 +44,10 @@ public class StreamingActivity extends Activity {
         videoView.setMediaController(mc);
 
         //Set the path of Video or URI
-        videoView.setVideoURI(Uri.parse("rtsp://192.168.1.110:8554/"));
+       // videoView.setVideoURI(Uri.parse("rtsp://192.168.1.110:8554/"));
+        videoView.setVideoURI(Uri.parse("tcp://192.168.43.88:8090/"));
+
+
 
         //Set the focus
         videoView.requestFocus();
