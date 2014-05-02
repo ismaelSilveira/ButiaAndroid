@@ -11,4 +11,5 @@
     <item name="enableVideo" type="id" />
     <item name="textinfo" type="id">textinfo</item>
     <item name="textgit" type="id">textgit</item>
+    <item name="mv" type="id">mv</item>
 </resources>

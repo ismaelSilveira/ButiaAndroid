@@ -4,10 +4,10 @@
     android:layout_height="match_parent"
     tools:context="com.example.butiaandroid.main.StreamingActivity">
 
-    <VideoView
+    <com.example.butiaandroid.main.stream.MjpegView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/videoView"
+        android:id="@id/mv"
         android:layout_centerVertical="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true" />
