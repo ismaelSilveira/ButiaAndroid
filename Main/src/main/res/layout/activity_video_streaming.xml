@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     tools:context="com.example.butiaandroid.main.StreamingActivity">
 
-    <com.example.butiaandroid.main.stream.MjpegView
+    <com.example.butiaandroid.main.streamer.MjpegView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@id/mv"

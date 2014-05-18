@@ -2,43 +2,32 @@ package com.example.butiaandroid.main;
 
 import android.app.Activity;
 import android.content.SharedPreferences;
-import android.net.Uri;
 import android.os.AsyncTask;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.util.Log;
 import android.widget.ImageView;
-import android.widget.MediaController;
 import android.widget.VideoView;
 
-import com.example.butiaandroid.main.stream.MjpegInputStream;
-import com.example.butiaandroid.main.stream.MjpegView;
+import com.example.butiaandroid.main.streamer.MjpegInputStream;
+import com.example.butiaandroid.main.streamer.MjpegView;
 import com.example.butiaandroid.main.vistas.LayoutControl;
 
-import java.net.Socket;
 import java.io.IOException;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
-import android.app.Activity;
-import android.os.AsyncTask;
-import android.os.Bundle;
-import android.util.Log;
-import android.view.Window;
-import android.view.WindowManager;
-
 
 public class StreamingActivity extends Activity {
 
-  //  VideoView videoView;
-    LayoutControl control;
-    ImageView robot;
-    int velMAX = 1000;
+   LayoutControl control;
+   ImageView robot;
     Robot butia;
 
-    private MjpegView mv = null;
+    private MjpegView mv;
+    private static final int MENU_QUIT = 1;
 
+    private static final boolean DEBUG=false;
+    private static final String TAG = "MJPEG";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,8 +36,6 @@ public class StreamingActivity extends Activity {
 
         control = (LayoutControl) findViewById(R.id.control);
         robot = (ImageView) findViewById( R.id.robot);
-//        videoView = (VideoView)this.findViewById(R.id.videoView);
-
         control.setTransparente(true);
 
 
@@ -56,7 +43,7 @@ public class StreamingActivity extends Activity {
 
 
         Control c = new Control( control, robot);
-        control.setOnTouchListener(c);
+      //  control.setOnTouchListener(c);
 
         /*con vlc era solo usar un mediaplayer
         //add controls to a MediaPlayer like play, pause.
@@ -75,61 +62,53 @@ public class StreamingActivity extends Activity {
         */
 
 
-//a probar
-/*        String KEY_HOSTNAME = "hostname";
-        String KEY_PORTNUM = "portnum";
-        String KEY_WIDTH = "width";
-        String KEY_HEIGHT = "height";
-        // store the input data
-        SharedPreferences sp = this.getPreferences( MODE_PRIVATE);
-        SharedPreferences.Editor editor = sp.edit();
-        editor.putString( KEY_HOSTNAME, hostname);
-        editor.putString( KEY_PORTNUM, portnum);
-        editor.putString( KEY_WIDTH, width);
-        editor.putString( KEY_HEIGHT, height);
-        editor.commit();
-*/
 
-//hasta acaaaaaaaaaa
-
-        int width = 800;
-        int height = 600;
-
-        // set the image size
-        MjpegView.setImageSize( width, height);
+        //sacado de http://sanjosetech.blogspot.com/2013/03/web-cam-streaming-from-raspberry-pi-to.html?m=1
+        //se usa como libreria porque el soporte de ndk en androidStudio apesta
 
         mv = (MjpegView) findViewById(R.id.mv);
-        String hostname ="172.16.101.128";
-        String portnum ="1234";
-        new DoRead().execute( hostname, portnum);
+
+
+
+        String URL = "http://192.168.43.88:5000";
+
+        //requestWindowFeature(Window.FEATURE_NO_TITLE);
+        //getWindow().setFlags(WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN, WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN);
+        new DoRead().execute( "192.168.43.88", "5000");
     }
 
 
     public void onResume() {
+        if(DEBUG) Log.d(TAG,"onResume()");
+        super.onResume();
         if(mv!=null){
-            mv.resumePlayback();
+    //        mv.resumePlayback();
+            int i=1;
         }
 
     }
 
     public void onStart() {
+        if(DEBUG) Log.d(TAG,"onStart()");
         super.onStart();
     }
-
     public void onPause() {
+        if(DEBUG) Log.d(TAG,"onPause()");
         super.onPause();
         if(mv!=null){
             mv.stopPlayback();
         }
     }
-
     public void onStop() {
+        if(DEBUG) Log.d(TAG,"onStop()");
         super.onStop();
     }
 
     public void onDestroy() {
+        if(DEBUG) Log.d(TAG,"onDestroy()");
+
         if(mv!=null){
-            mv.freeCameraMemory();
+          //  mv.freeCameraMemory();
         }
 
         super.onDestroy();
@@ -153,11 +132,12 @@ public class StreamingActivity extends Activity {
 
         protected void onPostExecute(MjpegInputStream result) {
             mv.setSource(result);
-            if(result!=null) result.setSkip(1);
+            if(result!=null) {
+                result.setSkip(1);
+                //String e="safdsfsdf";
+            }
             mv.setDisplayMode(MjpegView.SIZE_BEST_FIT);
             mv.showFps(true);
         }
     }
-
-
 }

@@ -189,7 +189,7 @@ public class ConnectActivity extends Activity {
             try {
                 // Simulate network access.
                 Robot butia = Robot.getInstance();
-                butia.conectar(ip, Integer.parseInt(puerto));
+              //  butia.conectar(ip, Integer.parseInt(puerto));
                // System.out.println("***************************** Módulos *****************************");
                // System.out.println(butia.get_modules_list());
             } catch (Exception e) {
