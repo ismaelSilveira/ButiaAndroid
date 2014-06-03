@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.VideoView;
 
@@ -16,14 +17,19 @@ import java.io.IOException;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
+import butterknife.ButterKnife;
+import butterknife.InjectView;
+
 
 public class StreamingActivity extends Activity {
 
-   LayoutControl control;
-   ImageView robot;
+    @InjectView(R.id.control)    LayoutControl control;
+    @InjectView(R.id.robot) ImageView robot;
+    @InjectView(R.id.mv) MjpegView mv;
+
+
     Robot butia;
 
-    private MjpegView mv;
     private static final int MENU_QUIT = 1;
 
     private static final boolean DEBUG=false;
@@ -33,17 +39,12 @@ public class StreamingActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_video_streaming);
-
-        control = (LayoutControl) findViewById(R.id.control);
-        robot = (ImageView) findViewById( R.id.robot);
-        control.setTransparente(true);
-
+        ButterKnife.inject(this);
 
         butia = Robot.getInstance();
 
-
         Control c = new Control( control, robot);
-      //  control.setOnTouchListener(c);
+        control.setOnTouchListener(c);
 
         /*con vlc era solo usar un mediaplayer
         //add controls to a MediaPlayer like play, pause.
@@ -53,28 +54,15 @@ public class StreamingActivity extends Activity {
         //Set the path of Video or URI
        // videoView.setVideoURI(Uri.parse("rtsp://192.168.1.110:8554/"));
         videoView.setVideoURI(Uri.parse("tcp://192.168.43.88:8090/"));
-
-
-
-        //Set the focus
+     //Set the focus
         videoView.requestFocus();
         videoView.start();
         */
 
 
+       // String URL = "http://192.168.43.88:5000";
 
-        //sacado de http://sanjosetech.blogspot.com/2013/03/web-cam-streaming-from-raspberry-pi-to.html?m=1
-        //se usa como libreria porque el soporte de ndk en androidStudio apesta
-
-        mv = (MjpegView) findViewById(R.id.mv);
-
-
-
-        String URL = "http://192.168.43.88:5000";
-
-        //requestWindowFeature(Window.FEATURE_NO_TITLE);
-        //getWindow().setFlags(WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN, WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN);
-        new DoRead().execute( "192.168.43.88", "5000");
+        new DoRead().execute( butia.getHost(), butia.getPortStreaming());
     }
 
 

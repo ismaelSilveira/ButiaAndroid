@@ -17,9 +17,16 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.FrameLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+
 import java.util.regex.Pattern;
+
+import butterknife.ButterKnife;
+import butterknife.InjectView;
+import butterknife.OnClick;
 
 /**
  * A login screen that offers login via email/password.
@@ -27,67 +34,76 @@ import java.util.regex.Pattern;
  */
 public class ConnectActivity extends Activity {
     // UI references.
-    private EditText in_ip;
+   /* private EditText in_ip;
     private EditText in_puerto;
+*/
+    @InjectView(R.id.login_progress) View mProgressView;
+    @InjectView(R.id.connect_form) View mLoginFormView;
 
-    private View mProgressView;
-    private View mLoginFormView;
-    private CheckBox enableVideo;
+    @InjectView(R.id.puertoStreaming) EditText puertoS;
+    @InjectView(R.id.ip) EditText in_ip;
+    @InjectView(R.id.puerto) EditText in_puerto;
+    @InjectView(R.id.enableVideo) CheckBox enableVideo;
+
+    @InjectView(R.id.textinfo) TextView infoText;
+    @InjectView(R.id.textgit) TextView gitText;
+
+    @InjectView(R.id.layoutPort)  FrameLayout layoutStreaming;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_connect);
+        ButterKnife.inject(this);
 
-        // Set up the login form.
-        in_ip = (EditText) findViewById(R.id.ip);
-        in_puerto = (EditText) findViewById(R.id.puerto);
-        enableVideo = (CheckBox) findViewById(R.id.enableVideo);
-
-        Button mEmailSignInButton = (Button) findViewById(R.id.conectar);
-        mEmailSignInButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                attemptConnect();
-            }
-        });
-
-        mLoginFormView = findViewById(R.id.connect_form);
-        mProgressView = findViewById(R.id.login_progress);
-
-        TextView infoText = (TextView) findViewById(R.id.textinfo);
+        // Set up the login form
         infoText.setMovementMethod(LinkMovementMethod.getInstance());
         infoText.setText(Html.fromHtml(getString(R.string.mas_link)));
 
-        TextView gitText = (TextView) findViewById(R.id.textgit);
         gitText.setMovementMethod(LinkMovementMethod.getInstance());
         gitText.setText(Html.fromHtml(getString(R.string.mas_git)));
-
 
         SharedPreferences preferences = getSharedPreferences("datos", Context.MODE_PRIVATE);
         in_ip.setText(preferences.getString("IP",""));
         in_puerto.setText(preferences.getString("PORT",""));
-
-
-
-
+        puertoS.setText(preferences.getString("PORTS",""));
     }
+
+
+    @OnClick(R.id.enableVideo)
+    public void eneable_video(){
+        if(!enableVideo.isChecked()){
+            this.layoutStreaming.setVisibility(View.GONE);
+        }else{
+            this.layoutStreaming.setVisibility(View.VISIBLE);
+
+        }
+    }
+
+
+
 
     /**
      * Attempts to sign in or register the account specified by the login form.
      * If there are form errors (invalid email, missing fields, etc.), the
      * errors are presented and no actual login attempt is made.
      */
+    String puertoStreaming;
+    String ip;
+    String puerto;
+
+    @OnClick(R.id.conectar)
     public void attemptConnect() {
 
         // Reset errors.
         in_ip.setError(null);
         in_puerto.setError(null);
+        puertoS.setError(null);
 
         // Store values at the time of the login attempt.
-        String ip = in_ip.getText().toString();
-        String puerto = in_puerto.getText().toString();
+         ip = in_ip.getText().toString();
+         puerto = in_puerto.getText().toString();
 
         boolean cancel = false;
         View focusView = null;
@@ -98,6 +114,19 @@ public class ConnectActivity extends Activity {
             focusView = in_ip;
             cancel = true;
         }
+
+
+        // Check for a valid IP address.
+        if (this.enableVideo.isChecked() ){
+            puertoStreaming =puertoS.getText().toString();
+            if (TextUtils.isEmpty(puertoStreaming) || !isPuertoValid(puertoStreaming)) {
+                puertoS.setError(getString(R.string.error_invalid_puerto));
+                focusView = puertoS;
+                cancel = true;
+            }
+        }
+
+
 
         // Check for a valid port.
         if (TextUtils.isEmpty(puerto) || !isPuertoValid(puerto)) {
@@ -167,9 +196,18 @@ public class ConnectActivity extends Activity {
     }
 
     private void conecto(){
+        //que lo haga siempre que se conecta
+        SharedPreferences preferences = getSharedPreferences("datos", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putString("IP", ip);
+        editor.putString("PORT", puerto);
+        editor.putString("PORTS", puertoStreaming);
+        editor.commit();
+
         Intent myIntent;
 
         if (enableVideo.isChecked()){
+            Robot.getInstance().setPortStreaming(puertoStreaming);
             myIntent = new Intent(this, StreamingActivity.class);
         }else{
             myIntent = new Intent(this, SinStreamingActivity.class);
@@ -187,22 +225,13 @@ public class ConnectActivity extends Activity {
             String puerto= params[1];
 
             try {
-                // Simulate network access.
                 Robot butia = Robot.getInstance();
-              //  butia.conectar(ip, Integer.parseInt(puerto));
-               // System.out.println("***************************** Módulos *****************************");
-               // System.out.println(butia.get_modules_list());
+                butia.conectar(ip, Integer.parseInt(puerto));
+
             } catch (Exception e) {
+                //mostrar error
                 return  false;
            }
-
-
-           //que lo haga siempre que se conecta
-            SharedPreferences preferences = getSharedPreferences("datos", Context.MODE_PRIVATE);
-            SharedPreferences.Editor editor = preferences.edit();
-            editor.putString("IP", ip);
-            editor.putString("PORT", puerto);
-            editor.commit();
 
             return true;
         }

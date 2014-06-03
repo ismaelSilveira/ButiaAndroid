@@ -32,7 +32,7 @@ public class SinStreamingActivity extends Activity  {
         robot = (ImageView) findViewById( R.id.robot);
 
 
-        //butia = Robot.getInstance();
+        butia = Robot.getInstance();
 
         Control c = new Control( control, robot);
         control.setOnTouchListener(c);

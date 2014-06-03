@@ -31,11 +31,16 @@ public class Robot {
 
     private String host;
     private int port;
+    private String portStreaming;
+
     private Socket client;
     private PrintWriter out;
     private BufferedReader in;
     private String version;
 
+    public String getHost() {
+        return host;
+    }
 
     public void conectar (String host, int port) {
             this.host = host;
@@ -45,7 +50,13 @@ public class Robot {
             this.getVersion();
     }
 
+    public String getPortStreaming() {
+        return portStreaming;
+    }
 
+    public void setPortStreaming(String portStreaming) {
+        this.portStreaming = portStreaming;
+    }
 
     public static Robot getInstance() {
         if (miRobot==null) {

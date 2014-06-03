@@ -19,7 +19,7 @@
         android:layout_gravity="center" />
 
     <ScrollView android:layout_width="fill_parent" android:layout_height="match_parent"
-        android:fillViewport="true" android:id="@id/connect_form">
+        android:fillViewport="true" android:id="@+id/connect_form">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -48,7 +48,7 @@
                         flatui:textColor="light"
                         android:textStyle="bold" />
                     <com.cengalabs.flatui.views.FlatTextView
-                        android:id="@id/textinfo"
+                        android:id="@+id/textinfo"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dip"
@@ -80,9 +80,9 @@
                         flatui:theme="Grass"
                         flatui:fieldStyle="box"
                         flatui:cornerRadius="1dip"
-                        android:id="@id/ip" />
+                        android:id="@+id/ip" />
                     <com.cengalabs.flatui.views.FlatEditText
-                        android:id="@id/puerto"
+                        android:id="@+id/puerto"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="Puerto, generalmente es el 2009"
@@ -94,7 +94,7 @@
                         android:layout_marginTop="16dip"
                         android:inputType="number" />
                     <com.cengalabs.flatui.views.FlatCheckBox
-                        android:id="@id/enableVideo"
+                        android:id="@+id/enableVideo"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="16dp"
@@ -102,9 +102,34 @@
                         flatui:theme="Grass"
                         android:textStyle="bold"
                         android:textSize="23dp"
-                        flatui:size="23dip"/>
+                        flatui:size="23dip"
+                        android:checked="true" />
+
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/layoutPort"
+                        android:animateLayoutChanges="true">
+
+
+                        <com.cengalabs.flatui.views.FlatEditText
+                            android:id="@+id/puertoStreaming"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="Puerto Streaming"
+                            android:maxLines="1"
+                            android:singleLine="true"
+                            flatui:theme="Grass"
+                            flatui:fieldStyle="box"
+                            flatui:cornerRadius="1dp"
+                            android:layout_marginTop="16dip"
+                            android:inputType="number" />
+                    </FrameLayout>
+
+
+
                     <com.cengalabs.flatui.views.FlatButton
-                        android:id="@id/conectar"
+                        android:id="@+id/conectar"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="16dp"
@@ -146,7 +171,7 @@
                             android:gravity="center"
                             flatui:fontFamily="Roboto"/>
                         <com.cengalabs.flatui.views.FlatTextView
-                            android:id="@id/textgit"
+                            android:id="@+id/textgit"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:textColor="#808080"
