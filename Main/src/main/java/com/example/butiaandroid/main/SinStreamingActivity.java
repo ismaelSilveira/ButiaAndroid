@@ -17,27 +17,25 @@ import android.widget.TextView;
 
 import com.example.butiaandroid.main.vistas.LayoutControl;
 
-public class SinStreamingActivity extends Activity  {
-    //TextView texto;
-    LayoutControl control;
-    ImageView robot;
-    Robot butia;
+import butterknife.ButterKnife;
+import butterknife.InjectView;
+
+public class SinStreamingActivity extends ButiaActivity  {
+
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        control = (LayoutControl) findViewById(R.id.control);
-        robot = (ImageView) findViewById( R.id.robot);
-
+        ButterKnife.inject(this);
 
         butia = Robot.getInstance();
 
-        Control c = new Control( control, robot);
-        control.setOnTouchListener(c);
-
     }
+
+
 
 
 }

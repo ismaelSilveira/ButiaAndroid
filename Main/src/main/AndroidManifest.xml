@@ -19,17 +19,20 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".SinStreamingActivity"
-            android:label="ButiaAndroid">
+            android:name="com.example.butiaandroid.main.SinStreamingActivity"
+            android:label="ButiaAndroid" >
         </activity>
         <activity
-            android:name=".StreamingActivity"
+            android:name="com.example.butiaandroid.main.StreamingActivity"
             android:label="@string/title_activity_video_streaming" >
+        </activity>
+        <activity
+            android:name="com.example.butiaandroid.main.ListarModulosActivity"
+            android:label="@string/title_activity_listar_modulos" >
         </activity>
     </application>
 
     <!-- To auto-complete the email text field in the login form with the user's emails -->
     <uses-permission android:name="android.permission.INTERNET" />
-
 
 </manifest>

@@ -22,10 +22,13 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 
+import com.devspark.appmsg.AppMsg;
+
 import java.util.regex.Pattern;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import butterknife.OnCheckedChanged;
 import butterknife.OnClick;
 
 /**
@@ -33,10 +36,7 @@ import butterknife.OnClick;
 
  */
 public class ConnectActivity extends Activity {
-    // UI references.
-   /* private EditText in_ip;
-    private EditText in_puerto;
-*/
+
     @InjectView(R.id.login_progress) View mProgressView;
     @InjectView(R.id.connect_form) View mLoginFormView;
 
@@ -68,10 +68,12 @@ public class ConnectActivity extends Activity {
         in_ip.setText(preferences.getString("IP",""));
         in_puerto.setText(preferences.getString("PORT",""));
         puertoS.setText(preferences.getString("PORTS",""));
+
+        eneable_video();
     }
 
 
-    @OnClick(R.id.enableVideo)
+    @OnCheckedChanged(R.id.enableVideo)
     public void eneable_video(){
         if(!enableVideo.isChecked()){
             this.layoutStreaming.setVisibility(View.GONE);
@@ -80,6 +82,16 @@ public class ConnectActivity extends Activity {
 
         }
     }
+
+
+
+
+    public void mostrarError(String error){
+        AppMsg appMsg = AppMsg.makeText(this, error,  AppMsg.STYLE_ALERT);
+        appMsg.setDuration(8000);
+        appMsg.show();
+    }
+
 
 
 
@@ -229,8 +241,7 @@ public class ConnectActivity extends Activity {
                 butia.conectar(ip, Integer.parseInt(puerto));
 
             } catch (Exception e) {
-                //mostrar error
-                return  false;
+                return true;
            }
 
             return true;
@@ -246,8 +257,7 @@ public class ConnectActivity extends Activity {
             if (result) {
                 conecto();
             } else {
-                in_ip.setError(getString(R.string.error_connect));
-                in_ip.requestFocus();
+                mostrarError(getString(R.string.error_connect));
             }
 
         }

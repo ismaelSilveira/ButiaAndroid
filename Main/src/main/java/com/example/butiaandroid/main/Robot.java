@@ -1,6 +1,7 @@
 package com.example.butiaandroid.main;
 
 
+import android.text.TextUtils;
 import android.util.Log;
 
 import java.io.BufferedReader;
@@ -17,9 +18,9 @@ import java.net.Socket;
 //import org.apache.commons.net.telnet.TelnetClient;
 //import org.apache.commons.net.telnet.TerminalTypeOptionHandler;
 
-public class Robot {
+public class Robot  extends Thread {
 
-    private static Robot miRobot= null;
+    private static Robot miRobot = null;
 
 
     public static final String ERROR_SENSOR_READ = "-1";
@@ -42,12 +43,13 @@ public class Robot {
         return host;
     }
 
-    public void conectar (String host, int port) {
-            this.host = host;
-            this.port = port;
-            this.version = Robot.ERROR_SENSOR_READ;
-            this.reconnect();
-            this.getVersion();
+    public void conectar(String host, int port) throws Exception {
+        this.host = host;
+        this.port = port;
+        this.version = Robot.ERROR_SENSOR_READ;
+        this.reconnect();
+        //no esta andando this.getVersion();
+         version="10";
     }
 
     public String getPortStreaming() {
@@ -59,8 +61,8 @@ public class Robot {
     }
 
     public static Robot getInstance() {
-        if (miRobot==null) {
-            miRobot=new Robot();
+        if (miRobot == null) {
+            miRobot = new Robot();
         }
         return miRobot;
     }
@@ -73,34 +75,33 @@ public class Robot {
     /**
      *
 
-    private Robot() {
-        ///rodrigo: ehhh super porque??¿¿¿ de que mierdaa extiende, comento esto
-        //super();
-        this.host = Robot.BOBOT_HOST;
-        this.port = Robot.BOBOT_PORT;
-        this.version = Robot.ERROR_SENSOR_READ;
-        this.reconnect();
-        this.getVersion();
-    }
+     private Robot() {
+     ///rodrigo: ehhh super porque??¿¿¿ de que mierdaa extiende, comento esto
+     //super();
+     this.host = Robot.BOBOT_HOST;
+     this.port = Robot.BOBOT_PORT;
+     this.version = Robot.ERROR_SENSOR_READ;
+     this.reconnect();
+     this.getVersion();
+     }
 
 
-    private Robot(String host, int port) {
-        ///rodrigo: todo mal todo mal
-        //super();
-        this.host = host;
-        this.port = port;
-        this.version = Robot.ERROR_SENSOR_READ;
-        this.reconnect();
-        this.getVersion();
-    }
-*/
-
-
+     private Robot(String host, int port) {
+     ///rodrigo: todo mal todo mal
+     //super();
+     this.host = host;
+     this.port = port;
+     this.version = Robot.ERROR_SENSOR_READ;
+     this.reconnect();
+     this.getVersion();
+     }
+     */
 
 
     /**
      * Executes a command in butia.
      * stores the response to this.mensaje.
+     *
      * @param msg message to be execute
      * @return Robot.ERROR_SENSOR_READ on failure
      */
@@ -109,24 +110,24 @@ public class Robot {
         String respuesta = Robot.ERROR_SENSOR_READ;
         try {
 
-           // Log.w("Robot doCommand()", "Mensaje: " + msg);
+            // Log.w("Robot doCommand()", "Mensaje: " + msg);
 
-            this.out = new PrintWriter (new BufferedWriter (
-                    new OutputStreamWriter (this.client.getOutputStream())), true);
+            this.out = new PrintWriter(new BufferedWriter(
+                    new OutputStreamWriter(this.client.getOutputStream())), true);
             this.out.println(msg);
 
             this.in = new BufferedReader(new InputStreamReader(this.client.getInputStream()));
             respuesta = this.in.readLine();
 
             if ((respuesta == null) || (respuesta.equals(""))
-                    || (respuesta.equals("fail"))|| (respuesta.equals("missing driver"))) {
+                    || (respuesta.equals("fail")) || (respuesta.equals("missing driver"))) {
                 respuesta = Robot.ERROR_SENSOR_READ;
             }
 
             //Log.w("Robot doCommand()", "Respuesta: " + respuesta);
 
         } catch (Exception e) {
-           // Log.e("ROBOT", e.getMessage());
+            // Log.e("ROBOT", e.getMessage());
             respuesta = Robot.ERROR_SENSOR_READ;
         }
 
@@ -135,14 +136,15 @@ public class Robot {
 
     /**
      * connect o reconnect the bobot
+     *
      * @return Robot.ERROR_SENSOR_READ on failure
      */
-    private String reconnect() {
+    private String reconnect() throws Exception {
 
         String respuesta = "0";
         this.close();
         try {
-            InetAddress  serverAddr = InetAddress.getByName(this.host);
+            InetAddress serverAddr = InetAddress.getByName(this.host);
             this.client = new Socket(serverAddr, this.port);
 
             String msg = "INIT";
@@ -154,6 +156,7 @@ public class Robot {
         } catch (Exception e) {
             Log.e("ROBOT reconect()", e.getMessage());
             respuesta = Robot.ERROR_SENSOR_READ;
+            throw new Exception("Error al conectar");
         }
 
         return respuesta;
@@ -161,6 +164,7 @@ public class Robot {
 
     /**
      * ask bobot for refresh is state of devices connected
+     *
      * @return Robot.ERROR_SENSOR_READ on failure
      */
     private String refresh() {
@@ -185,9 +189,10 @@ public class Robot {
 
     /**
      * close the comunication with the bobot
+     *
      * @return Robot.ERROR_SENSOR_READ on failure
      */
-    private String close() {
+    public String close() {
 
         String respuesta = Robot.ERROR_SENSOR_READ;
         try {
@@ -222,9 +227,10 @@ public class Robot {
 
     /**
      * call the module "modulename"
+     *
      * @return Robot.ERROR_SENSOR_READ on failure
      */
-    private String callModule(String modulename, String function , String params) {
+    private String callModule(String modulename, String function, String params) {
 
         String msg = "CALL " + modulename + " " + function;
         if (params != "") {
@@ -236,9 +242,10 @@ public class Robot {
 
     /**
      * Close bobot service
+     *
      * @return Robot.ERROR_SENSOR_READ on failure
      */
-    private String closeService() {
+    public String closeService() {
 
         String msg = "QUIT";
         return this.doCommand(msg);
@@ -252,7 +259,7 @@ public class Robot {
 
     /**
      * returns if the module_name is present
-     */
+     *//*
     public boolean isPresent(String module_name) {
 
         boolean resultado = false;
@@ -267,32 +274,35 @@ public class Robot {
         }
 
         return resultado;
-    }
+    }*/
 
     /**
      * returns a list of modules
+     *
      * @return null on failure
      */
-    public String[] get_modules_list() {
+    public String get_modules_list() {
         String msg = "LIST";
         String modulos = this.doCommand(msg);
-        if ( ! ((modulos == null) || (modulos.equals(Robot.ERROR_SENSOR_READ)))) {
+        return modulos;
+     /*   if ( ! ((modulos == null) || (modulos.equals(Robot.ERROR_SENSOR_READ)))) {
             return modulos.split(",");
         }
         else {
             return null;
-        }
+        }*/
     }
 
     /**
      * loopBack: send a message to butia and wait to recibe the same
+     *
      * @return Robot.ERROR_SENSOR_READ on failure
      */
     public String loopBack(String data) {
 
         String msg = "lback send " + data;
         String respuesta = this.doCommand(msg);
-        if ( ! respuesta.equals(Robot.ERROR_SENSOR_READ)) {
+        if (!respuesta.equals(Robot.ERROR_SENSOR_READ)) {
             return this.callModule("lback", "read", "");
         } else {
             return Robot.ERROR_SENSOR_READ;
@@ -343,7 +353,6 @@ public class Robot {
      *****************************************************************/
 
     /**
-     *
      * @param idMotor
      * @return Robot.ERROR_SENSOR_READ on failure
      */
@@ -363,8 +372,8 @@ public class Robot {
 
     /**
      * @param idMotor
-     * @param min: valor minimo 0
-     * @param max: valor maximo 1023
+     * @param min:    valor minimo 0
+     * @param max:    valor maximo 1023
      * @return Robot.ERROR_SENSOR_READ on failure
      */
     public String joint_mode(String idMotor, String min, String max) {
@@ -382,7 +391,6 @@ public class Robot {
     }
 
     /**
-     *
      * @param idMotor
      * @return Robot.ERROR_SENSOR_READ on failure
      */
@@ -401,7 +409,6 @@ public class Robot {
     }
 
     /**
-     *
      * @param idMotor
      * @return Robot.ERROR_SENSOR_READ on failure
      */
@@ -433,6 +440,7 @@ public class Robot {
 
     /**
      * # returns the approximate charge of the battery
+     *
      * @return Robot.ERROR_SENSOR_READ_VALUE on failure
      */
     public int getBatteryCharge() {
@@ -451,13 +459,14 @@ public class Robot {
 
     /**
      * returns the firmware version
+     *
      * @return Robot.ERROR_SENSOR_READ on failure
      */
     public String getVersion() {
 
-        String ver = this.callModule("butia", "read_ver", "");
+        String ver = this.callModule("admin", "getVersion", "");
 
-        if ( ! ver.equals(Robot.ERROR_SENSOR_READ)) {
+        if (!ver.equals(Robot.ERROR_SENSOR_READ)) {
             this.version = ver;
         }
 
@@ -468,6 +477,7 @@ public class Robot {
 
     /**
      * set de motor idMotor on determinate angle
+     *
      * @param idMotor
      * @param angle
      * @return Robot.ERROR_SENSOR_READ on failure
@@ -475,12 +485,13 @@ public class Robot {
     public String setPosition(String idMotor, String angle) {
 
         String msg = idMotor + " " + angle;
-        return this.callModule("placa", "setPosicion" , msg );
+        return this.callModule("placa", "setPosicion", msg);
 
     }
 
     /**
      * return the value of button: 1 if pressed, 0 otherwise
+     *
      * @param number
      * @return Robot.ERROR_SENSOR_READ_VALUE on failure
      */
@@ -498,6 +509,7 @@ public class Robot {
 
     /**
      * return the value en ambient light sensor
+     *
      * @param number
      * @return Robot.ERROR_SENSOR_READ_VALUE on failure
      */
@@ -514,6 +526,7 @@ public class Robot {
 
     /**
      * return the value of the distance sensor
+     *
      * @param number
      * @return Robot.ERROR_SENSOR_READ_VALUE on failure
      */
@@ -530,6 +543,7 @@ public class Robot {
 
     /**
      * return the value of the grayscale sensor
+     *
      * @param number
      * @return Robot.ERROR_SENSOR_READ_VALUE on failure
      */
@@ -547,6 +561,7 @@ public class Robot {
 
     /**
      * return the value of the temperature sensor
+     *
      * @param number
      * @return Robot.ERROR_SENSOR_READ_VALUE on failure
      */
@@ -564,6 +579,7 @@ public class Robot {
 
     /**
      * return the value of the vibration sensor
+     *
      * @param number
      * @return Robot.ERROR_SENSOR_READ_VALUE on failure
      */
@@ -581,6 +597,7 @@ public class Robot {
 
     /**
      * return the value of the resistance sensor
+     *
      * @param number
      * @return Robot.ERROR_SENSOR_READ_VALUE on failure
      */
@@ -598,6 +615,7 @@ public class Robot {
 
     /**
      * return the value of the tilt sensor
+     *
      * @param number
      * @return Robot.ERROR_SENSOR_READ_VALUE on failure
      */
@@ -616,6 +634,7 @@ public class Robot {
     /**
      * FIXME: the name of the module and the function...
      * return the value of the capacitive touch sensor
+     *
      * @param number
      * @return Robot.ERROR_SENSOR_READ_VALUE on failure
      */
@@ -634,6 +653,7 @@ public class Robot {
 
     /**
      * return the value of the magnetic induction sensor
+     *
      * @param number
      * @return Robot.ERROR_SENSOR_READ_VALUE on failure
      */
@@ -651,6 +671,7 @@ public class Robot {
 
     /**
      * set the led intensity
+     *
      * @param number
      * @param nivel
      * @return Robot.ERROR_SENSOR_READ on failure
@@ -670,12 +691,59 @@ public class Robot {
     /**
      * FIXME: check the lenght of text?
      * write a text in LCD display
+     *
      * @param text
      * @return Robot.ERROR_SENSOR_READ on failure
      */
     public String writeLCD(String text) {
         text = text.replace(" ", "_");
-        return this.callModule("display", "escribir" , text);
+        return this.callModule("display", "escribir", text);
     }
+
+
+    /////////////////////////////////////////////////
+    volatile boolean on = false;
+    volatile String msg = null;
+
+    @Override
+    public void run() {
+        while (on) {
+            if (!TextUtils.isEmpty(msg)) {
+                if (this.version.equals(Robot.BUTIA_1)) {
+                    this.callModule("motores", "setvel2mtr", msg);
+                } else {
+                    this.callModule("motors", "setvel2mtr", msg);
+                }
+            }
+            try {
+                Thread.sleep(400);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+        Log.d("Robot", "deja de enviar velocidades");
+    }
+
+    public void setOff() {
+        this.on = false;
+    }
+
+
+    public void set2MotorMsg(String leftSense, String leftSpeed, String rightSense, String rightSpeed) {
+        msg = leftSense + " " + leftSpeed + " " + rightSense + " " + rightSpeed;
+    }
+
+
+    public void start2MotorThread() {
+        if (!on) {
+            on = true;
+            msg = null;
+            Thread thread = new Thread(this);
+            thread.start();
+            Log.d("Robot", "nuevo hilo");
+
+        }
+    }
+
 
 }

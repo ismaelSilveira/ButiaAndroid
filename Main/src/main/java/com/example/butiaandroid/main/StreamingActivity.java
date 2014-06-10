@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -21,14 +22,12 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 
 
-public class StreamingActivity extends Activity {
+public class StreamingActivity   extends ButiaActivity {
 
-    @InjectView(R.id.control)    LayoutControl control;
-    @InjectView(R.id.robot) ImageView robot;
+
     @InjectView(R.id.mv) MjpegView mv;
 
 
-    Robot butia;
 
     private static final int MENU_QUIT = 1;
 
@@ -43,8 +42,6 @@ public class StreamingActivity extends Activity {
 
         butia = Robot.getInstance();
 
-        Control c = new Control( control, robot);
-        control.setOnTouchListener(c);
 
         /*con vlc era solo usar un mediaplayer
         //add controls to a MediaPlayer like play, pause.
@@ -58,9 +55,6 @@ public class StreamingActivity extends Activity {
         videoView.requestFocus();
         videoView.start();
         */
-
-
-       // String URL = "http://192.168.43.88:5000";
 
         new DoRead().execute( butia.getHost(), butia.getPortStreaming());
     }
@@ -122,7 +116,6 @@ public class StreamingActivity extends Activity {
             mv.setSource(result);
             if(result!=null) {
                 result.setSkip(1);
-                //String e="safdsfsdf";
             }
             mv.setDisplayMode(MjpegView.SIZE_BEST_FIT);
             mv.showFps(true);

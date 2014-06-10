@@ -1,7 +1,0 @@
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
-
-    <item android:id="@+id/cambiar"
-            android:title="@string/action_cambiar"
-            android:orderInCategory="100"
-            android:icon="@drawable/ic_action_video"/>
-</menu>
