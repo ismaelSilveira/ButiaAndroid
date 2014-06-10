@@ -718,7 +718,7 @@ public class Robot  extends Thread {
 
 
     public void start2MotorThread() {
-        if (!on) {
+        if (!on) {  
             on = true;
             msg = null;
             Thread thread = new Thread(this);
