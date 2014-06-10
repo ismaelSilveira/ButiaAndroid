@@ -46,10 +46,8 @@ public class Robot  extends Thread {
     public void conectar(String host, int port) throws Exception {
         this.host = host;
         this.port = port;
-        this.version = Robot.ERROR_SENSOR_READ;
-        this.reconnect();
-        //no esta andando this.getVersion();
-         version="10";
+        reconnect();
+        initVersion();
     }
 
     public String getPortStreaming() {
@@ -72,30 +70,6 @@ public class Robot  extends Thread {
 
     }
 
-    /**
-     *
-
-     private Robot() {
-     ///rodrigo: ehhh super porque??¿¿¿ de que mierdaa extiende, comento esto
-     //super();
-     this.host = Robot.BOBOT_HOST;
-     this.port = Robot.BOBOT_PORT;
-     this.version = Robot.ERROR_SENSOR_READ;
-     this.reconnect();
-     this.getVersion();
-     }
-
-
-     private Robot(String host, int port) {
-     ///rodrigo: todo mal todo mal
-     //super();
-     this.host = host;
-     this.port = port;
-     this.version = Robot.ERROR_SENSOR_READ;
-     this.reconnect();
-     this.getVersion();
-     }
-     */
 
 
     /**
@@ -462,17 +436,26 @@ public class Robot  extends Thread {
      *
      * @return Robot.ERROR_SENSOR_READ on failure
      */
-    public String getVersion() {
-
+    private void initVersion(){
         String ver = this.callModule("admin", "getVersion", "");
 
         if (!ver.equals(Robot.ERROR_SENSOR_READ)) {
             this.version = ver;
+        } else {
+            this.version = Robot.ERROR_SENSOR_READ;
         }
 
         Log.w("Robot getVersion()", "Version = " + this.version);
 
-        return ver;
+
+    }
+
+
+
+
+
+    public String getVersion() {
+        return this.version;
     }
 
     /**
@@ -701,7 +684,7 @@ public class Robot  extends Thread {
     }
 
 
-    /////////////////////////////////////////////////
+////////////////////////////////////////////////////////
     volatile boolean on = false;
     volatile String msg = null;
 
