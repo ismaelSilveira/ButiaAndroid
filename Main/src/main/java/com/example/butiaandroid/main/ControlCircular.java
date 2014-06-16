@@ -1,10 +1,6 @@
 package com.example.butiaandroid.main;
 
-import android.content.Intent;
-import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.app.Fragment;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,62 +9,26 @@ import android.widget.RelativeLayout;
 
 import com.example.butiaandroid.main.vistas.LayoutControl;
 
-import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnTouch;
 
 /**
- * Created by Rodrigo on 09/06/14.
+ * Created by Rodrigo on 15/06/14.
  */
-public class ButiaActivity extends ActionBarActivity {
-    Robot butia;
-    int velMAX = 1023;
+public class ControlCircular extends Fragment {
 
+    int velMAX = 1023;
 
     @InjectView(R.id.control)
     LayoutControl control;
     @InjectView(R.id.robot)
     ImageView robot;
 
+    ControlActivity padre;
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.butia_menu, menu);
-        return true;
+    public void setPadre(ControlActivity padre) {
+        this.padre = padre;
     }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-        if (id == R.id.listarModulos) {
-            Intent listarIntent = new Intent(this, ListarModulosActivity.class);
-            startActivity(listarIntent);
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
-
-    //implementa el control del robot
-    @Override
-    protected void onResume() {
-        super.onResume();
-        butia.start2MotorThread();
-    }
-
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        butia.setOff();
-        //   butia.closeService();
-        //   butia.close();
-    }
-
 
     @OnTouch( R.id.control)
     public boolean onTouch(View view, MotionEvent motionEvent) {
@@ -89,6 +49,8 @@ public class ButiaActivity extends ActionBarActivity {
     private boolean manejar(MotionEvent motionEvent) {
         int x = (int) motionEvent.getRawX();
         int y = (int) motionEvent.getRawY();
+        Robot butia = Robot.getInstance();
+
         // String mensaje = "";
 
 
@@ -158,7 +120,6 @@ public class ButiaActivity extends ActionBarActivity {
 
         return true;
     }
-
 
 
 

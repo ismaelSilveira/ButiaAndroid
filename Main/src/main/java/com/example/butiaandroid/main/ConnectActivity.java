@@ -14,11 +14,9 @@ import android.text.Html;
 import android.text.TextUtils;
 import android.text.method.LinkMovementMethod;
 import android.view.View;
-import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.FrameLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 
@@ -213,20 +211,19 @@ public class ConnectActivity extends Activity {
         SharedPreferences.Editor editor = preferences.edit();
         editor.putString("IP", ip);
         editor.putString("PORT", puerto);
-        editor.putString("PORTS", puertoStreaming);
-        editor.commit();
-
-        Intent myIntent;
 
         if (enableVideo.isChecked()){
+            editor.putString("PORTS", puertoStreaming);
+            Robot.getInstance().setStreaming(true);
             Robot.getInstance().setPortStreaming(puertoStreaming);
-            myIntent = new Intent(this, StreamingActivity.class);
         }else{
-            myIntent = new Intent(this, SinStreamingActivity.class);
+            Robot.getInstance().setStreaming(false);
         }
+
+        editor.commit();
+        Intent myIntent = new Intent(this, ControlActivity.class);
         startActivity(myIntent);
         showProgress(false);
-
     }
 
     private class ConectarButia extends AsyncTask<String, Void, Boolean > {
@@ -241,7 +238,7 @@ public class ConnectActivity extends Activity {
                 butia.conectar(ip, Integer.parseInt(puerto));
 
             } catch (Exception e) {
-                return false;
+                return true;
            }
 
             return true;

@@ -38,6 +38,7 @@ public class Robot  extends Thread {
     private PrintWriter out;
     private BufferedReader in;
     private String version;
+    private boolean streaming;
 
     public String getHost() {
         return host;
@@ -48,6 +49,14 @@ public class Robot  extends Thread {
         this.port = port;
         reconnect();
         initVersion();
+    }
+
+    public boolean isStreaming() {
+        return streaming;
+    }
+
+    public void setStreaming(boolean streaming) {
+        this.streaming = streaming;
     }
 
     public String getPortStreaming() {
@@ -80,7 +89,7 @@ public class Robot  extends Thread {
      * @return Robot.ERROR_SENSOR_READ on failure
      */
     private synchronized String doCommand(String msg) {
-
+//esto tiene que serr llamado de un thread aparte cuidado!!!!
         String respuesta = Robot.ERROR_SENSOR_READ;
         try {
 
@@ -89,7 +98,6 @@ public class Robot  extends Thread {
             this.out = new PrintWriter(new BufferedWriter(
                     new OutputStreamWriter(this.client.getOutputStream())), true);
             this.out.println(msg);
-
             this.in = new BufferedReader(new InputStreamReader(this.client.getInputStream()));
             respuesta = this.in.readLine();
 
@@ -101,7 +109,7 @@ public class Robot  extends Thread {
             //Log.w("Robot doCommand()", "Respuesta: " + respuesta);
 
         } catch (Exception e) {
-            // Log.e("ROBOT", e.getMessage());
+          //  Log.d("ROBOT", e.getMessage());
             respuesta = Robot.ERROR_SENSOR_READ;
         }
 
@@ -255,9 +263,18 @@ public class Robot  extends Thread {
      *
      * @return null on failure
      */
+    String modulos;
     public String get_modules_list() {
-        String msg = "LIST";
-        String modulos = this.doCommand(msg);
+        Thread one = new Thread() {
+            public void run() {
+                try {
+                    modulos = doCommand("LIST");
+                    } catch(Exception v) {
+                    //System.out.println(v);
+                }
+            }
+        };
+       one.start();
         return modulos;
      /*   if ( ! ((modulos == null) || (modulos.equals(Robot.ERROR_SENSOR_READ)))) {
             return modulos.split(",");
@@ -699,7 +716,7 @@ public class Robot  extends Thread {
                 }
             }
             try {
-                Thread.sleep(400);
+                Thread.sleep(200);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -718,7 +735,7 @@ public class Robot  extends Thread {
 
 
     public void start2MotorThread() {
-        if (!on) {  
+        if (!on) {
             on = true;
             msg = null;
             Thread thread = new Thread(this);

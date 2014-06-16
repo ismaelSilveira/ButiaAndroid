@@ -8,4 +8,12 @@
     <string name="title_activity_video_streaming">VideoStreaming</string>
     <string name="title_activity_listar_modulos">Modulos</string>
 
+    <string-array name="action_list_controles">
+        <item>Control Simple</item>
+        <item>Control Streaming</item>
+        <item>Control Acelerometro</item>
+    </string-array>
+
+    <string name="title_activity_acelerometro">AcelerometroActivity</string>
+
 </resources>

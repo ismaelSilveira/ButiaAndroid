@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.butiaandroid.main.StreamingActivity">
+    tools:context="com.example.butiaandroid.main.FragmentControlStreaming">
 
     <com.example.butiaandroid.main.streamer.MjpegView
         android:layout_width="match_parent"
@@ -21,8 +21,8 @@
         android:layout_margin="16dp">
 
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="65dp"
+            android:layout_height="65dp"
             android:id="@id/robot"
             android:layout_centerVertical="true"
             android:layout_centerHorizontal="true"

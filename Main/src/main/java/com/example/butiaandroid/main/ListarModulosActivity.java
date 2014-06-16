@@ -30,8 +30,9 @@ public class ListarModulosActivity extends ActionBarActivity {
         butia = Robot.getInstance();
 
         LinkedList l = new LinkedList();
-
+//DEVUELVE admin:0,button:4,grey:5,grey:6,pnp:7,motors:8
         String modulos = butia.get_modules_list();
+        modulos = butia.get_modules_list();
 
         for (int i=0 ; i<10; i++){
             moduloItem m = new moduloItem ("modulo" + i, String.valueOf(i));

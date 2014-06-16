@@ -5,8 +5,9 @@
     <application
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
+        android:logo="@drawable/ic_launcher_butia"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme" >
+        android:theme="@style/Theme.Butiabar" >
         <activity
             android:name="com.example.butiaandroid.main.ConnectActivity"
             android:label="ButiaAndroid"
@@ -19,12 +20,8 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.example.butiaandroid.main.SinStreamingActivity"
+            android:name=".ControlActivity"
             android:label="ButiaAndroid" >
-        </activity>
-        <activity
-            android:name="com.example.butiaandroid.main.StreamingActivity"
-            android:label="@string/title_activity_video_streaming" >
         </activity>
         <activity
             android:name="com.example.butiaandroid.main.ListarModulosActivity"

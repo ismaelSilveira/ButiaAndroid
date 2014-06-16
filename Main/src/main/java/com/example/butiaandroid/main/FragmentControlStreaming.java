@@ -1,62 +1,50 @@
 package com.example.butiaandroid.main;
 
-import android.app.Activity;
-import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.ImageView;
-import android.widget.VideoView;
+import android.view.ViewGroup;
 
 import com.example.butiaandroid.main.streamer.MjpegInputStream;
 import com.example.butiaandroid.main.streamer.MjpegView;
-import com.example.butiaandroid.main.vistas.LayoutControl;
 
-import java.io.IOException;
 import java.net.Socket;
-import java.net.UnknownHostException;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
 
-public class StreamingActivity   extends ButiaActivity {
-
+public class FragmentControlStreaming extends ControlCircular{
 
     @InjectView(R.id.mv) MjpegView mv;
-
-
-
     private static final int MENU_QUIT = 1;
-
     private static final boolean DEBUG=false;
     private static final String TAG = "MJPEG";
 
+
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_video_streaming);
-        ButterKnife.inject(this);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
+        View V = inflater.inflate(R.layout.control_video_streaming, container, false);
+        ButterKnife.inject(this, V);
 
-        butia = Robot.getInstance();
+        Robot butia = Robot.getInstance();
+        //new DoRead().execute( butia.getHost(), butia.getPortStreaming());
 
-
-        /*con vlc era solo usar un mediaplayer
+        return V;
+        /*con RTSP era solo usar un mediaplayer
         //add controls to a MediaPlayer like play, pause.
         MediaController mc = new MediaController(this);
         videoView.setMediaController(mc);
 
         //Set the path of Video or URI
-       // videoView.setVideoURI(Uri.parse("rtsp://192.168.1.110:8554/"));
+        // videoView.setVideoURI(Uri.parse("rtsp://192.168.1.110:8554/"));
         videoView.setVideoURI(Uri.parse("tcp://192.168.43.88:8090/"));
-     //Set the focus
+        //Set the focus
         videoView.requestFocus();
         videoView.start();
         */
-
-        new DoRead().execute( butia.getHost(), butia.getPortStreaming());
     }
 
 
@@ -102,10 +90,8 @@ public class StreamingActivity   extends ButiaActivity {
             try {
                 socket = new Socket( params[0], Integer.valueOf( params[1]));
                 return (new MjpegInputStream(socket.getInputStream()));
-            } catch (UnknownHostException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            } catch (IOException e) {
+            } catch (Exception e) {
+                padre.mostrarError("Ocurrio un error al conectar");
                 // TODO Auto-generated catch block
                 e.printStackTrace();
             }
