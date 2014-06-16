@@ -19,6 +19,7 @@ public class FragmentControlAcelerometro extends Fragment implements SensorEvent
 
     private Robot api = null;
     ControlActivity padre;
+    SensorManager sm;
 
     public void setPadre(ControlActivity padre) {
         this.padre = padre;
@@ -32,13 +33,21 @@ public class FragmentControlAcelerometro extends Fragment implements SensorEvent
 
         api = Robot.getInstance();
 
-        SensorManager sm = (SensorManager) getActivity().getSystemService(this.padre.SENSOR_SERVICE);
+        sm = (SensorManager) getActivity().getSystemService(this.padre.SENSOR_SERVICE);
         //SensorManager sm = (SensorManager) getSystemService(padre.SENSOR_SERVICE);
         List<Sensor> sensors = sm.getSensorList(Sensor.TYPE_ACCELEROMETER);
         if (sensors.size() > 0) {
             sm.registerListener(this, sensors.get(0), SensorManager.SENSOR_DELAY_GAME);
         }
+
         return V;
+    }
+
+
+    @Override
+    public void onDestroy() {
+        sm.unregisterListener(this);
+        super.onDestroy();
     }
 
 

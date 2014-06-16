@@ -238,7 +238,7 @@ public class ConnectActivity extends Activity {
                 butia.conectar(ip, Integer.parseInt(puerto));
 
             } catch (Exception e) {
-                return true;
+                return false;
            }
 
             return true;

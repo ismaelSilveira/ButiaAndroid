@@ -68,8 +68,6 @@ public class ControlActivity extends ActionBarActivity {
             this.getActionBar().setSelectedNavigationItem(0);
         }
 
-        //controlSimple();
-
     }
 
 
@@ -77,7 +75,7 @@ public class ControlActivity extends ActionBarActivity {
     private void controlSimple() {
         // Create new fragment and transaction
         FragmentControlSimple newFragment = new FragmentControlSimple();
-        newFragment.setPadre(this);
+        newFragment.init(this);
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
 
         // Replace whatever is in the fragment_container view with this fragment,
@@ -93,7 +91,7 @@ public class ControlActivity extends ActionBarActivity {
     private void controlStreaming() {
         // Create new fragment and transaction
         FragmentControlStreaming newFragment = new FragmentControlStreaming();
-        newFragment.setPadre(this);
+        newFragment.init(this);
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
 
         // Replace whatever is in the fragment_container view with this fragment,
@@ -159,7 +157,7 @@ public class ControlActivity extends ActionBarActivity {
     @Override
     protected void onResume() {
         super.onResume();
-       // butia.start2MotorThread();
+        butia.start2MotorThread();
     }
 
 

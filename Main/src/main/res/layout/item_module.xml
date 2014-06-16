@@ -20,7 +20,8 @@
             android:layout_height="wrap_content"
             android:singleLine="true"
             android:text="modulo X"
-            android:id="@+id/nombre"/>
+            android:id="@+id/nombre"
+            android:textColor="#000000" />
 
     </LinearLayout>
 
@@ -31,6 +32,6 @@
         android:layout_height="wrap_content"
         android:gravity="right"
         android:text="500"
-        />
+        android:textColor="#000000" />
 
 </LinearLayout>

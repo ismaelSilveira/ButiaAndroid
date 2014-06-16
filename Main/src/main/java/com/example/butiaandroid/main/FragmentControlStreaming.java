@@ -30,7 +30,7 @@ public class FragmentControlStreaming extends ControlCircular{
         ButterKnife.inject(this, V);
 
         Robot butia = Robot.getInstance();
-        //new DoRead().execute( butia.getHost(), butia.getPortStreaming());
+        new DoRead().execute( butia.getHost(), butia.getPortStreaming());
 
         return V;
         /*con RTSP era solo usar un mediaplayer

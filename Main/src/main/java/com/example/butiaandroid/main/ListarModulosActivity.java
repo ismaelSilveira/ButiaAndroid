@@ -1,9 +1,9 @@
 package com.example.butiaandroid.main;
 
+import android.os.AsyncTask;
+import android.os.Handler;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.widget.ListView;
 
 import com.example.butiaandroid.main.Listar.CustomAdapter;
@@ -19,6 +19,7 @@ public class ListarModulosActivity extends ActionBarActivity {
     @InjectView(R.id.listView) protected ListView list;
 
     Robot butia;
+    private Handler mHandler = new Handler();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,25 +27,52 @@ public class ListarModulosActivity extends ActionBarActivity {
         setContentView(R.layout.activity_listar_modulos);
         ButterKnife.inject(this);
 
-
         butia = Robot.getInstance();
 
-        LinkedList l = new LinkedList();
-//DEVUELVE admin:0,button:4,grey:5,grey:6,pnp:7,motors:8
-        String modulos = butia.get_modules_list();
-        modulos = butia.get_modules_list();
 
-        for (int i=0 ; i<10; i++){
-            moduloItem m = new moduloItem ("modulo" + i, String.valueOf(i));
-            l.add(m);
-        }
+        new ModulosOperation().execute("");
 
-       //vacio  modulos = null
-
-        list.setAdapter(new CustomAdapter(this,l));
-
+//        mHandler.postDelayed(runnable, 1);
 
     }
+
+
+
+
+
+    private class ModulosOperation extends AsyncTask<String, Void, LinkedList> {
+
+        @Override
+        protected LinkedList doInBackground(String... params) {
+
+            String[] listmodulos = butia.get_modules_list();
+
+
+            LinkedList l = new LinkedList();
+
+            for (String modulo:listmodulos ) {
+                moduloItem m = new moduloItem (modulo, butia.getModuleValue(modulo));
+                l.add(m);
+            }
+
+            return l;
+        }
+
+        @Override
+        protected void onPostExecute(LinkedList result) {
+            list.setAdapter(new CustomAdapter(getApplicationContext(),result));
+        }
+
+        @Override
+        protected void onPreExecute() {}
+
+        @Override
+        protected void onProgressUpdate(Void... values) {}
+    }
+
+
+
+
 
 
 

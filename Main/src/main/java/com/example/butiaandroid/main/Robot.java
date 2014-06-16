@@ -22,7 +22,6 @@ public class Robot  extends Thread {
 
     private static Robot miRobot = null;
 
-
     public static final String ERROR_SENSOR_READ = "-1";
     public static final int ERROR_SENSOR_READ_VALUE = -1;
     public static final String BUTIA_1 = "20";
@@ -76,7 +75,6 @@ public class Robot  extends Thread {
 
 
     private Robot() {
-
     }
 
 
@@ -89,7 +87,7 @@ public class Robot  extends Thread {
      * @return Robot.ERROR_SENSOR_READ on failure
      */
     private synchronized String doCommand(String msg) {
-//esto tiene que serr llamado de un thread aparte cuidado!!!!
+        //se tiene que ejecutar en un hilo aparte, por eso en el 2012 no deberia andar nada..
         String respuesta = Robot.ERROR_SENSOR_READ;
         try {
 
@@ -150,7 +148,6 @@ public class Robot  extends Thread {
      * @return Robot.ERROR_SENSOR_READ on failure
      */
     private String refresh() {
-
         String msg = "LIST";
         if (this.version.equals(Robot.BUTIA_1) || this.version.equals(Robot.ERROR_SENSOR_READ)) {
             msg = "INIT";
@@ -241,7 +238,7 @@ public class Robot  extends Thread {
 
     /**
      * returns if the module_name is present
-     *//*
+     */
     public boolean isPresent(String module_name) {
 
         boolean resultado = false;
@@ -256,32 +253,23 @@ public class Robot  extends Thread {
         }
 
         return resultado;
-    }*/
+    }
 
     /**
      * returns a list of modules
      *
      * @return null on failure
      */
-    String modulos;
-    public String get_modules_list() {
-        Thread one = new Thread() {
-            public void run() {
-                try {
-                    modulos = doCommand("LIST");
-                    } catch(Exception v) {
-                    //System.out.println(v);
-                }
-            }
-        };
-       one.start();
-        return modulos;
-     /*   if ( ! ((modulos == null) || (modulos.equals(Robot.ERROR_SENSOR_READ)))) {
+    public String[] get_modules_list() {
+
+        String  modulos = doCommand("LIST");
+        if ( ! ((modulos == null) || (modulos.equals(Robot.ERROR_SENSOR_READ)))) {
             return modulos.split(",");
         }
         else {
             return null;
-        }*/
+        }
+
     }
 
     /**
@@ -742,6 +730,17 @@ public class Robot  extends Thread {
             thread.start();
             Log.d("Robot", "nuevo hilo");
 
+        }
+    }
+
+
+
+    public String getModuleValue (String module) {
+        String v = callModule(module, "getValue", "");
+        if ("-1".equals(v)){
+            return "";
+        }else{
+            return v;
         }
     }
 

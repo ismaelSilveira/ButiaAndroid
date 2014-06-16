@@ -25,9 +25,12 @@ public class ControlCircular extends Fragment {
     ImageView robot;
 
     ControlActivity padre;
+    Robot butia = Robot.getInstance();
 
-    public void setPadre(ControlActivity padre) {
+    public void init(ControlActivity padre) {
         this.padre = padre;
+        butia.set2MotorMsg("0", "0", "0", "0");
+
     }
 
     @OnTouch( R.id.control)
@@ -49,7 +52,6 @@ public class ControlCircular extends Fragment {
     private boolean manejar(MotionEvent motionEvent) {
         int x = (int) motionEvent.getRawX();
         int y = (int) motionEvent.getRawY();
-        Robot butia = Robot.getInstance();
 
         // String mensaje = "";
 
