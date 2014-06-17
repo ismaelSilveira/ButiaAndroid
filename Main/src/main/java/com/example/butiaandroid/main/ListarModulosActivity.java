@@ -47,7 +47,7 @@ public class ListarModulosActivity extends ActionBarActivity {
         protected String doInBackground(String... params) {
             while (!isCancelled()){
                 try {
-                    String[] listmodulos = butia.get_modules_list();
+                    String[] listmodulos = butia.getModulesList();
                     LinkedList l = new LinkedList();
 
                     for (String modulo:listmodulos ) {

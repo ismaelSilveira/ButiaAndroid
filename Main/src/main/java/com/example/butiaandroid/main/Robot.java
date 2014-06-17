@@ -24,8 +24,6 @@ public class Robot  extends Thread {
 
     public static final String ERROR_SENSOR_READ = "-1";
     public static final int ERROR_SENSOR_READ_VALUE = -1;
-    public static final String BUTIA_1 = "20";
-    public static final int BUTIA_1_VALUE = 20;
     public static final String BOBOT_HOST = "192.168.1.33";
     public static final int BOBOT_PORT = 2009;
 
@@ -47,7 +45,6 @@ public class Robot  extends Thread {
         this.host = host;
         this.port = port;
         reconnect();
-        initVersion();
     }
 
     public boolean isStreaming() {
@@ -99,8 +96,7 @@ public class Robot  extends Thread {
             this.in = new BufferedReader(new InputStreamReader(this.client.getInputStream()));
             respuesta = this.in.readLine();
 
-            if ((respuesta == null) || (respuesta.equals(""))
-                    || (respuesta.equals("fail")) || (respuesta.equals("missing driver"))) {
+            if ( (respuesta == null) || (respuesta.equals("")) ) {
                 respuesta = Robot.ERROR_SENSOR_READ;
             }
 
@@ -127,11 +123,11 @@ public class Robot  extends Thread {
             InetAddress serverAddr = InetAddress.getByName(this.host);
             this.client = new Socket(serverAddr, this.port);
 
-            String msg = "INIT";
+
             Log.w("Robot reconnect()", "Paso por reconnect va a LIST");
 
             // bobot server instance is running, but we have to check for new or remove hardware
-            this.doCommand(msg);
+            this.doCommand("LIST");
 
         } catch (Exception e) {
             Log.e("ROBOT reconect()", e.getMessage());
@@ -148,12 +144,7 @@ public class Robot  extends Thread {
      * @return Robot.ERROR_SENSOR_READ on failure
      */
     private String refresh() {
-        String msg = "LIST";
-        if (this.version.equals(Robot.BUTIA_1) || this.version.equals(Robot.ERROR_SENSOR_READ)) {
-            msg = "INIT";
-        } else {
-            msg = "REFRESH";
-        }
+        String msg = "REFRESH";
 
         Log.w("Robot refresh()", "Paso por refresh va a enviar mensaje" + msg);
 
@@ -242,7 +233,7 @@ public class Robot  extends Thread {
     public boolean isPresent(String module_name) {
 
         boolean resultado = false;
-        String[] module_list = this.get_modules_list();
+        String[] module_list = this.getModulesList();
 
         if (module_list != null) {
             for(int i = 0; i < module_list.length; i++) {
@@ -260,7 +251,7 @@ public class Robot  extends Thread {
      *
      * @return null on failure
      */
-    public String[] get_modules_list() {
+    public String[] getModulesList() {
 
         String  modulos = doCommand("LIST");
         if ( ! ((modulos == null) || (modulos.equals(Robot.ERROR_SENSOR_READ)))) {
@@ -280,16 +271,11 @@ public class Robot  extends Thread {
     public String loopBack(String data) {
 
         String msg = "lback send " + data;
-        String respuesta = this.doCommand(msg);
-        if (!respuesta.equals(Robot.ERROR_SENSOR_READ)) {
-            return this.callModule("lback", "read", "");
-        } else {
-            return Robot.ERROR_SENSOR_READ;
-        }
+        return this.doCommand(msg);
     }
 
     /*****************************************************************
-     * Operations for motores.lua driver
+     * Operations for motors driver
      *****************************************************************/
 
     /**
@@ -298,15 +284,8 @@ public class Robot  extends Thread {
     public String set2MotorSpeed(String leftSense, String leftSpeed, String rightSense, String rightSpeed) {
 
         String msg = leftSense + " " + leftSpeed + " " + rightSense + " " + rightSpeed;
+        return this.callModule("motors", "setvel2mtr", msg);
 
-        String respuesta;
-        if (this.version.equals(Robot.BUTIA_1)) {
-            respuesta = this.callModule("motores", "setvel2mtr", msg);
-        } else {
-            respuesta = this.callModule("motors", "setvel2mtr", msg);
-        }
-
-        return respuesta;
     }
 
     /**
@@ -315,38 +294,23 @@ public class Robot  extends Thread {
     public String setMotorSpeed(String idMotor, String sense, String speed) {
 
         String msg = idMotor + " " + sense + " " + speed;
-
-        String respuesta;
-        if (this.version.equals(Robot.BUTIA_1)) {
-            respuesta = this.callModule("motores", "setvelmtr", msg);
-        } else {
-            respuesta = this.callModule("motors", "setvelmtr", msg);
-        }
-
-        return respuesta;
+        return this.callModule("motors", "setvelmtr", msg);
 
     }
 
     /*****************************************************************
-     * Operations for ax.lua driver
+     * Operations for ax driver
      *****************************************************************/
 
     /**
      * @param idMotor
      * @return Robot.ERROR_SENSOR_READ on failure
      */
-    public String wheel_mode(String idMotor) {
+    public String wheelMode(String idMotor) {
 
         String msg = idMotor;
+        return this.callModule("ax", "wheelMode", msg);
 
-        String respuesta;
-        if (this.version.equals(Robot.BUTIA_1)) {
-            respuesta = this.callModule("ax", "wheel_mode", msg);
-        } else {
-            respuesta = this.callModule("ax", "wheel_mode", msg);
-        }
-
-        return respuesta;
     }
 
     /**
@@ -355,67 +319,40 @@ public class Robot  extends Thread {
      * @param max:    valor maximo 1023
      * @return Robot.ERROR_SENSOR_READ on failure
      */
-    public String joint_mode(String idMotor, String min, String max) {
+    public String jointMode(String idMotor, String min, String max) {
 
         String msg = idMotor + " " + min + " " + max;
+        return this.callModule("ax", "jointMode", msg);
 
-        String respuesta;
-        if (this.version.equals(Robot.BUTIA_1)) {
-            respuesta = this.callModule("ax", "joint_mode", msg);
-        } else {
-            respuesta = this.callModule("ax", "joint_mode", msg);
-        }
-
-        return respuesta;
     }
 
     /**
      * @param idMotor
+     * @param pos
      * @return Robot.ERROR_SENSOR_READ on failure
      */
-    public String set_position(String idMotor, String pos) {
+    public String setPosition(String idMotor, String pos) {
 
         String msg = idMotor + " " + pos;
+        return this.callModule("ax", "setPosition", msg);
 
-        String respuesta;
-        if (this.version.equals(Robot.BUTIA_1)) {
-            respuesta = this.callModule("ax", "set_position", msg);
-        } else {
-            respuesta = this.callModule("ax", "set_position", msg);
-        }
-
-        return respuesta;
     }
 
     /**
      * @param idMotor
      * @return Robot.ERROR_SENSOR_READ on failure
      */
-    public String get_position(String idMotor) {
+    public String getPosition(String idMotor) {
 
         String msg = idMotor;
+        return this.callModule("ax", "getPosition", msg);
 
-        String respuesta;
-        if (this.version.equals(Robot.BUTIA_1)) {
-            respuesta = this.callModule("ax", "get_position", msg);
-        } else {
-            respuesta = this.callModule("ax", "get_position", msg);
-        }
-
-        return respuesta;
     }
 
 
     /*****************************************************************
      * Operations for butia.lua driver
      *****************************************************************/
-
-    /**
-     * @return Robot.ERROR_SENSOR_READ on failure
-     */
-    public String ping() {
-        return this.callModule("placa", "ping", "");
-    }
 
     /**
      * # returns the approximate charge of the battery
@@ -426,7 +363,7 @@ public class Robot  extends Thread {
 
         int carga = Robot.ERROR_SENSOR_READ_VALUE;
         try {
-            String valor = this.callModule("butia", "get_volt", "");
+            String valor = this.callModule("butia", "getVolt", "");
             carga = Integer.parseInt(valor);
 
         } catch (Exception e) {
@@ -436,46 +373,22 @@ public class Robot  extends Thread {
         return carga;
     }
 
+
     /**
      * returns the firmware version
      *
      * @return Robot.ERROR_SENSOR_READ on failure
      */
-    private void initVersion(){
-        String ver = this.callModule("admin", "getVersion", "");
+    public int getFirmwareVersion(){
 
-        if (!ver.equals(Robot.ERROR_SENSOR_READ)) {
-            this.version = ver;
-        } else {
-            this.version = Robot.ERROR_SENSOR_READ;
-        }
-
-        Log.w("Robot getVersion()", "Version = " + this.version);
-
+        String valor;
+        valor = this.callModule("admin", "getVersion", "");
+        return Integer.parseInt(valor);
 
     }
 
 
-
-
-
-    public String getVersion() {
-        return this.version;
-    }
-
-    /**
-     * set de motor idMotor on determinate angle
-     *
-     * @param idMotor
-     * @param angle
-     * @return Robot.ERROR_SENSOR_READ on failure
-     */
-    public String setPosition(String idMotor, String angle) {
-
-        String msg = idMotor + " " + angle;
-        return this.callModule("placa", "setPosicion", msg);
-
-    }
+    /*************** SENSORS *************************************************/
 
     /**
      * return the value of button: 1 if pressed, 0 otherwise
@@ -486,12 +399,7 @@ public class Robot  extends Thread {
     public int getButton(String number) {
 
         String valor;
-        if (this.version.equals(Robot.BUTIA_1)) {
-            valor = this.callModule("boton" + number, "getValue", "");
-        } else {
-            valor = this.callModule("button:" + number, "getValue", "");
-        }
-
+        valor = this.callModule("button:" + number, "getValue", "");
         return Integer.parseInt(valor);
     }
 
@@ -501,14 +409,10 @@ public class Robot  extends Thread {
      * @param number
      * @return Robot.ERROR_SENSOR_READ_VALUE on failure
      */
-    public int getAmbientLight(String number) {
+    public int getLight(String number) {
 
         String valor;
-        if (this.version.equals(Robot.BUTIA_1)) {
-            valor = this.callModule("luz" + number, "getValue", "");
-        } else {
-            valor = this.callModule("light:" + number, "getValue", "");
-        }
+        valor = this.callModule("light:" + number, "getValue", "");
         return Integer.parseInt(valor);
     }
 
@@ -521,11 +425,7 @@ public class Robot  extends Thread {
     public int getDistance(String number) {
 
         String distancia;
-        if (this.version.equals(Robot.BUTIA_1)) {
-            distancia = this.callModule("dist" + number, "getValue", "");
-        } else {
-            distancia = this.callModule("distanc:" + number, "getValue", "");
-        }
+        distancia = this.callModule("distanc:" + number, "getValue", "");
         return Integer.parseInt(distancia);
     }
 
@@ -535,15 +435,10 @@ public class Robot  extends Thread {
      * @param number
      * @return Robot.ERROR_SENSOR_READ_VALUE on failure
      */
-    public int getGrayScale(String number) {
+    public int getGray(String number) {
 
         String valor;
-        if (this.version.equals(Robot.BUTIA_1)) {
-            valor = this.callModule("grises" + number, "getValue", "");
-        } else {
-            valor = this.callModule("grey:" + number, "getValue", "");
-        }
-
+        valor = this.callModule("grey:" + number, "getValue", "");
         return Integer.parseInt(valor);
     }
 
@@ -556,32 +451,10 @@ public class Robot  extends Thread {
     public int getTemperature(String number) {
 
         String temperatura;
-        if (this.version.equals(Robot.BUTIA_1)) {
-            temperatura = this.callModule("temp" + number, "getValue", "");
-        } else {
-            temperatura = this.callModule("temp:" + number, "getValue", "");
-        }
-
+        temperatura = this.callModule("temp:" + number, "getValue", "");
         return Integer.parseInt(temperatura);
     }
 
-    /**
-     * return the value of the vibration sensor
-     *
-     * @param number
-     * @return Robot.ERROR_SENSOR_READ_VALUE on failure
-     */
-    public int getVibration(String number) {
-
-        String valor;
-        if (this.version.equals(Robot.BUTIA_1)) {
-            valor = this.callModule("vibra" + number, "getValue", "");
-        } else {
-            valor = this.callModule("vibra:" + number, "getValue", "");
-        }
-
-        return Integer.parseInt(valor);
-    }
 
     /**
      * return the value of the resistance sensor
@@ -592,101 +465,24 @@ public class Robot  extends Thread {
     public int getResistance(String number) {
 
         String valor;
-        if (this.version.equals(Robot.BUTIA_1)) {
-            valor = this.callModule("resist" + number, "getValue", "");
-        } else {
-            valor = this.callModule("resist:" + number, "getValue", "");
-        }
-
+        valor = this.callModule("res:" + number, "getValue", "");
         return Integer.parseInt(valor);
     }
 
-    /**
-     * return the value of the tilt sensor
-     *
-     * @param number
-     * @return Robot.ERROR_SENSOR_READ_VALUE on failure
-     */
-    public int getTilt(String number) {
-
-        String valor;
-        if (this.version.equals(Robot.BUTIA_1)) {
-            valor = this.callModule("tilt" + number, "getValue", "");
-        } else {
-            valor = this.callModule("tilt:" + number, "getValue", "");
-        }
-
-        return Integer.parseInt(valor);
-    }
 
     /**
-     * FIXME: the name of the module and the function...
-     * return the value of the capacitive touch sensor
+     * with 1 turn led on, 0 off
      *
      * @param number
-     * @return Robot.ERROR_SENSOR_READ_VALUE on failure
-     */
-
-    public int getCapacitive(String number) {
-
-        String valor;
-        if (this.version.equals(Robot.BUTIA_1)) {
-            valor = this.callModule("capacitive" + number, "getValue", "");
-        } else {
-            valor = this.callModule("capacitive:" + number, "getValue", "");
-        }
-
-        return Integer.parseInt(valor);
-    }
-
-    /**
-     * return the value of the magnetic induction sensor
-     *
-     * @param number
-     * @return Robot.ERROR_SENSOR_READ_VALUE on failure
-     */
-    public int getMagneticInduction(String number) {
-
-        String valor;
-        if (this.version.equals(Robot.BUTIA_1)) {
-            valor = this.callModule("magnet" + number, "getValue", "");
-        } else {
-            valor = this.callModule("magnet:" + number, "getValue", "");
-        }
-
-        return Integer.parseInt(valor);
-    }
-
-    /**
-     * set the led intensity
-     *
-     * @param number
-     * @param nivel
+     * @param on_off = 0 or 1
      * @return Robot.ERROR_SENSOR_READ on failure
      */
-    public String setLed(String number, String nivel) {
+    public String setLed(String number, String on_off) {
 
-        String respuesta;
-        if (this.version.equals(Robot.BUTIA_1)) {
-            respuesta = this.callModule("led" + number, "setLight", nivel);
-        } else {
-            respuesta = this.callModule("led:" + number, "setLight", nivel);
-        }
+        return this.callModule("led:" + number, "turn", on_off);
 
-        return respuesta;
     }
 
-    /**
-     * FIXME: check the lenght of text?
-     * write a text in LCD display
-     *
-     * @param text
-     * @return Robot.ERROR_SENSOR_READ on failure
-     */
-    public String writeLCD(String text) {
-        text = text.replace(" ", "_");
-        return this.callModule("display", "escribir", text);
-    }
 
 
 ////////////////////////////////////////////////////////
@@ -697,11 +493,7 @@ public class Robot  extends Thread {
     public void run() {
         while (on) {
             if (!TextUtils.isEmpty(msg)) {
-                if (this.version.equals(Robot.BUTIA_1)) {
-                    this.callModule("motores", "setvel2mtr", msg);
-                } else {
-                    this.callModule("motors", "setvel2mtr", msg);
-                }
+                this.callModule("motors", "setvel2mtr", msg);
             }
             try {
                 Thread.sleep(200);

@@ -90,7 +90,7 @@ public class FragmentControlAcelerometro extends Fragment implements SensorEvent
                 yminusx = Math.abs(yminusx);
                 sentidoDer = 1;
             }
-
+            // por que 990 y no 1023 (velocidad maxima) ??
             xplusy = xplusy*100;
             if(xplusy > 990){
                 xplusy = 990;
