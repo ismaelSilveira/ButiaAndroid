@@ -19,7 +19,7 @@ public class ListarModulosActivity extends ActionBarActivity {
     @InjectView(R.id.listView) protected ListView list;
 
     Robot butia;
-    private Handler mHandler = new Handler();
+    ModulosOperation tarea;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,38 +29,44 @@ public class ListarModulosActivity extends ActionBarActivity {
 
         butia = Robot.getInstance();
 
-
-        new ModulosOperation().execute("");
-
-//        mHandler.postDelayed(runnable, 1);
-
+        tarea =new ModulosOperation();
+        tarea.execute("");
     }
 
 
+    @Override
+    public void onDestroy() {
+        tarea.cancel(true);
+        super.onDestroy();
+    }
 
 
-
-    private class ModulosOperation extends AsyncTask<String, Void, LinkedList> {
+    private class ModulosOperation extends AsyncTask<String, Void, String> {
 
         @Override
-        protected LinkedList doInBackground(String... params) {
+        protected String doInBackground(String... params) {
+            while (!isCancelled()){
+                try {
+                    String[] listmodulos = butia.get_modules_list();
+                    LinkedList l = new LinkedList();
 
-            String[] listmodulos = butia.get_modules_list();
+                    for (String modulo:listmodulos ) {
+                        moduloItem m = new moduloItem (modulo, butia.getModuleValue(modulo));
+                        l.add(m);
+                    }
+                    list.setAdapter(new CustomAdapter(getApplicationContext(),l));
 
-
-            LinkedList l = new LinkedList();
-
-            for (String modulo:listmodulos ) {
-                moduloItem m = new moduloItem (modulo, butia.getModuleValue(modulo));
-                l.add(m);
+                    Thread.sleep(2000);
+                } catch (Exception e) {
+                    //e.printStackTrace();
+                }
             }
 
-            return l;
+            return "";
         }
 
         @Override
-        protected void onPostExecute(LinkedList result) {
-            list.setAdapter(new CustomAdapter(getApplicationContext(),result));
+        protected void onPostExecute(String result) {
         }
 
         @Override
@@ -68,14 +74,8 @@ public class ListarModulosActivity extends ActionBarActivity {
 
         @Override
         protected void onProgressUpdate(Void... values) {}
+
     }
-
-
-
-
-
-
-
 
 
 
